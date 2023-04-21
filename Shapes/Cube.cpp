@@ -79,7 +79,7 @@ namespace Game
 
         // !float textScale = 0.0016 * getYSize();
         // Визначення та встановлення розміру тексту
-        float textScale = 0.00032;
+        float textScale = 0.00042;
         float textWidth = 0.0f;
         float lineWidth = 6000.0 * textScale;
         glLineWidth(lineWidth);
@@ -149,6 +149,27 @@ namespace Game
                 break;
             case 16:
                 setColors(diffCubeColor16, ambiCubeColor16, specCubeColor16);
+                break;
+            case 32:
+                setColors(diffCubeColor32, ambiCubeColor32, specCubeColor32);
+                break;
+            case 64:
+                setColors(diffCubeColor64, ambiCubeColor64, specCubeColor64);
+                break;
+            case 128:
+                setColors(diffCubeColor128, ambiCubeColor128, specCubeColor128);
+                break;
+            case 256:
+                setColors(diffCubeColor256, ambiCubeColor256, specCubeColor256);
+                break;
+            case 512:
+                setColors(diffCubeColor512, ambiCubeColor512, specCubeColor512);
+                break;
+            case 1024:
+                setColors(diffCubeColor1024, ambiCubeColor1024, specCubeColor1024);
+                break;
+            case 2048:
+                setColors(diffCubeColor2048, ambiCubeColor2048, specCubeColor2048);
                 break;
             default:
                 break;

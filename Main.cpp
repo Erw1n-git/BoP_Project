@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     // ! glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);// ініціалізуємо режими відображення
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);// ініціалізуємо режими відображення
     glEnable(GLUT_MULTISAMPLE);    // включаємо мультисемплінг для більш гладкої
-    glutCreateWindow("Disks");     // створюємо вікно
+    glutCreateWindow("2048");     // створюємо вікно
     glutDisplayFunc(on_paint);     // реєструємо функцію відображення
     glutReshapeFunc(on_size);      // реєструємо функцію обробки зміни розмірів вікна
     glutMotionFunc(on_motion);     // реєструємо функцію, яка відповідає за переміщення миші з натиснутою кнопкою

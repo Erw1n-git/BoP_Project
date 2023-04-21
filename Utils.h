@@ -29,6 +29,34 @@ namespace GraphUtils
     extern float ambiCubeColor16[];
     extern float specCubeColor16[];
 
+    extern float diffCubeColor32[];
+    extern float ambiCubeColor32[];
+    extern float specCubeColor32[];
+
+    extern float diffCubeColor64[];
+    extern float ambiCubeColor64[];
+    extern float specCubeColor64[];
+
+    extern float diffCubeColor128[];
+    extern float ambiCubeColor128[];
+    extern float specCubeColor128[];
+
+    extern float diffCubeColor256[];
+    extern float ambiCubeColor256[];
+    extern float specCubeColor256[];
+
+    extern float diffCubeColor512[];
+    extern float ambiCubeColor512[];
+    extern float specCubeColor512[];
+
+    extern float diffCubeColor1024[];
+    extern float ambiCubeColor1024[];
+    extern float specCubeColor1024[];
+
+    extern float diffCubeColor2048[];
+    extern float ambiCubeColor2048[];
+    extern float specCubeColor2048[];
+
     extern float diffWhite[];
     extern float ambiWhite[];
     extern float specWhite[];

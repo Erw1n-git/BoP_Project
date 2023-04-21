@@ -23,6 +23,34 @@ namespace GraphUtils
     float specCubeColor16[] = { 0.99f, 0.80f, 0.63f };
     float ambiCubeColor16[] = { 0.74f, 0.44f, 0.25f };
 
+    float diffCubeColor32[] = { 0.96f, 0.48f, 0.37f };
+    float specCubeColor32[] = { 0.8f, 0.8f, 0.8f };
+    float ambiCubeColor32[] = { 0.49f, 0.28f, 0.25f };
+
+    float diffCubeColor64[] = { 0.91f, 0.35f, 0.21f };
+    float specCubeColor64[] = { 0.9f, 0.9f, 0.9f };
+    float ambiCubeColor64[] = { 0.45f, 0.18f, 0.11f };
+
+    float diffCubeColor128[] = { 0.92f, 0.8f, 0.44f };
+    float specCubeColor128[] = { 1.0f, 1.0f, 1.0f };
+    float ambiCubeColor128[] = { 0.92f, 0.8f, 0.44f };
+
+    float diffCubeColor256[] = { 0.95f, 0.82f, 0.29f };
+    float specCubeColor256[] = { 1.0f, 0.93f, 0.55f };
+    float ambiCubeColor256[] = { 0.96f, 0.81f, 0.16f };
+
+    float diffCubeColor512[] = { 1.0f, 0.72f, 0.0f };
+    float specCubeColor512[] = { 1.0f, 0.72f, 0.0f };
+    float ambiCubeColor512[] = { 1.0f, 0.72f, 0.0f };
+
+    float diffCubeColor1024[] = { 1.0f, 0.58f, 0.0f };
+    float specCubeColor1024[] = { 1.0f, 1.0f, 1.0f };
+    float ambiCubeColor1024[] = { 1.0f, 0.58f, 0.0f };
+
+    float diffCubeColor2048[] = { 0.37f, 0.85f, 0.57f };
+    float specCubeColor2048[] = { 0.8f, 0.8f, 0.8f };
+    float ambiCubeColor2048[] = { 0.2f, 0.2f, 0.2f };
+
     float diffWhite[] = { 1.0f, 1.0f, 1.0f };
     float ambiWhite[] = { 0.8f, 0.8f, 0.8f };
     float specWhite[] = { 1.0f, 1.0f, 1.0f };

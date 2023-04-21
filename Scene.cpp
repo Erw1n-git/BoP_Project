@@ -20,15 +20,15 @@ namespace Game
             {
                 if(j == 0)
                 {
-                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor2, ambiCubeColor2, specCubeColor2, 16));
+                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor2, ambiCubeColor2, specCubeColor2, 1024));
                 }
                 else if(j == 1)
                 {
-                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 4));
+                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 2048));
                 }
                 else 
                 {
-                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 8));
+                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 512));
                 }
             }
         }
@@ -413,13 +413,18 @@ namespace Game
     {
         switch (key) {
         case GLUT_KEY_UP:   // наближення
-            if (distZ > -1.7)
+            // ! if (distZ > -1.7)
+            if(distZ > -1.5)
             {
                 break;
             }
             distZ += 0.1;
             break;
         case GLUT_KEY_DOWN: // віддалення
+            if(distZ < -2.3) 
+            {
+                break;
+            }
             distZ -= 0.1;
             break;
         case GLUT_KEY_F2:   // нова гра
