@@ -2,7 +2,7 @@
 #include <GL/glut.h>
 #include "Scene.h"
 
-using DiskGame::Scene;
+using Game::Scene;
 
 Scene *scene; // вказівник на клас Scene
 
@@ -47,15 +47,17 @@ void on_timer(int value)
 {
     // Обробка події від таймера
     scene->on_timer(value);
-    glutTimerFunc(25, on_timer, 0); // зa 25 мс викличеться ця функція
+    glutTimerFunc(10, on_timer, 0); // зa 25 мс викличеться ця функція
 }
 
 int main(int argc, char* argv[])
 {
     glutInit(&argc, argv);         // ініціалізуємо GLUT
-    scene = new Scene(0.4, 0.4);   // створюємо об'єкт "сцена"
+    scene = new Scene(0.23, 0.23);   // створюємо об'єкт "сцена"
     glutInitWindowSize(1200, 1000);  // встановлюємо розміри вікна
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);// ініціалізуємо режими відображення
+    // ! glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);// ініціалізуємо режими відображення
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);// ініціалізуємо режими відображення
+    glEnable(GLUT_MULTISAMPLE);    // включаємо мультисемплінг для більш гладкої
     glutCreateWindow("Disks");     // створюємо вікно
     glutDisplayFunc(on_paint);     // реєструємо функцію відображення
     glutReshapeFunc(on_size);      // реєструємо функцію обробки зміни розмірів вікна
@@ -63,7 +65,7 @@ int main(int argc, char* argv[])
     glutMouseFunc(on_mouse);       // реєструємо функцію, яка відповідає за натискання на кнопку миші
     glutKeyboardFunc(on_keyboard); // реєструємо функцію, яка відповідає за натискання клавіш
     glutSpecialFunc(on_special);   // реєструємо функцію, яка відповідає за натискання спеціальних клавіш
-    glutTimerFunc(25, on_timer, 0);// кожні 25 мс викликається ця функція
+    glutTimerFunc(10, on_timer, 0);// кожні 25 мс викликається ця функція
     glutMainLoop();                // стартуємо основний цикл обробки подій
     delete scene;                  // видаляємо об'єкт "сцена"
     return(0);

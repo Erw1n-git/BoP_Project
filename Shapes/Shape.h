@@ -1,7 +1,7 @@
 #ifndef SHAPE_H
 #define SHAPE_H
  
-namespace DiskGame
+namespace Game
 {
     // Клас для представлення абстрактної фігури
     class Shape

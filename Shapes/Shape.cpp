@@ -1,6 +1,6 @@
 #include "Shape.h"
  
-namespace DiskGame
+namespace Game
 {
  
     // Конструктор:
@@ -16,7 +16,7 @@ namespace DiskGame
     // Функції доступу:
 
     void Shape::setCoords(float xCenter, float yCenter, float zCenter)
-    {
+    {    
         this->xCenter = xCenter;
         this->yCenter = yCenter;
         this->zCenter = zCenter;

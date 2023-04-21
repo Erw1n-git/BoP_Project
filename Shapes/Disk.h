@@ -6,7 +6,7 @@
 #include "Shape.h"
 #include "../Utils.h"
 
-namespace DiskGame
+namespace Game
 {
     // Клас, який відповідає за малювання диска
     class Disk : public Shape

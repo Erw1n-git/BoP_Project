@@ -1,6 +1,6 @@
 #include "Disk.h"
 
-namespace DiskGame
+namespace Game
 {
 
     void Disk::draw()

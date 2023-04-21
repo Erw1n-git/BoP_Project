@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-namespace DiskGame
+namespace Game
 {
     using namespace GraphUtils;
 
@@ -12,23 +12,27 @@ namespace DiskGame
 
         // Додаємо дошку сірого кольору. 
         // Розміри визначаємо так, щоб поміщалися всі стрижні:
-        shapes.push_back(new Board(0.0, 0.0, 0.0, N * xStep, 0.1, M * xStep, diffGray, ambiGray, specGray));
+        shapes.push_back(new Board(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor));
         // Додаємо стрижні (крім останнього ряду):
-        for (int i = 0; i < M - 1; i++)
+        for (int i = 0; i < M; i++)
         {
             for (int j = 0; j < N; j++)
             {
-                shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.1, 0.1, 0.1, diffGray, ambiGray, specGray, 256));
+                shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffGray, ambiGray, specGray, 1024));
             }
         }
+
+        // !
         // Додаємо останній ряд стрижнів:
-        shapes.push_back(new Cube(allocX(0), 0.15, allocZ(M - 1), 0.1, 0.1, 0.1, diffRed, ambiRed, specRed, 256));
-        shapes.push_back(new Cube(allocX(1), 0.15, allocZ(M - 1), 0.1, 0.1, 0.1, diffYellow, ambiYellow, specYellow, 256));
-        shapes.push_back(new Cube(allocX(2), 0.15, allocZ(M - 1), 0.1, 0.1, 0.1, diffGreen, ambiGreen, specGreen, 256));
+        // shapes.push_back(new Cube(allocX(0), 0.15, allocZ(M - 1), 0.1, 0.1, 0.1, diffRed, ambiRed, specRed, 256));
+        // shapes.push_back(new Cube(allocX(1), 0.15, allocZ(M - 1), 0.1, 0.1, 0.1, diffYellow, ambiYellow, specYellow, 256));
+        // shapes.push_back(new Cube(allocX(2), 0.15, allocZ(M - 1), 0.1, 0.1, 0.1, diffGreen, ambiGreen, specGreen, 256));
+        // ! 
         // Додаємо диски в першому ряду:
-        shapes.push_back(disks[0] = new Disk(allocX(0), 0.1, allocZ(0), 0.3, 0.1, 0.3, diffRed, ambiRed, specRed, 0.05));
-        shapes.push_back(disks[1] = new Disk(allocX(1), 0.1, allocZ(0), 0.3, 0.1, 0.3, diffYellow, ambiYellow, specYellow, 0.05));
-        shapes.push_back(disks[2] = new Disk(allocX(2), 0.1, allocZ(0), 0.3, 0.1, 0.3, diffGreen, ambiGreen, specGreen, 0.05));
+        //shapes.push_back(disks[0] = new Disk(allocX(0), 0.1, allocZ(0), 0.3, 0.1, 0.3, diffRed, ambiRed, specRed, 0.05));
+        //shapes.push_back(disks[1] = new Disk(allocX(1), 0.1, allocZ(0), 0.3, 0.1, 0.3, diffYellow, ambiYellow, specYellow, 0.05));
+        //shapes.push_back(disks[2] = new Disk(allocX(2), 0.1, allocZ(0), 0.3, 0.1, 0.3, diffGreen, ambiGreen, specGreen, 0.05));
+        
         // Здійснюємо ініціалізацію параметрів перед першою грою:
         initialize();
     }
@@ -42,6 +46,8 @@ namespace DiskGame
         }
     }
 
+    // ! 
+    /*
     // Ініціалізація масиву, в якому відображається розміщення дисків
     void Scene::resetArr()
     {
@@ -58,8 +64,8 @@ namespace DiskGame
                 fields[i][j] = 0;
             }
         }
-    }
-
+    } */
+    
     // Перерахування індексу масиву fields в координату x
     float Scene::allocX(int i)
     {
@@ -72,9 +78,15 @@ namespace DiskGame
         return  zStep * i - (M - 1) * zStep / 2;
     }
 
+    // !
+    /*
     // Розташування дисків відповідно до вмісту масиву fields
     void Scene::allocateDisks()
     {
+
+        // ! DEBUG
+        std::cout << "this is a test (1)" << std::endl;
+
         for (int i = 0; i < M - 1; i++)
         {
             for (int j = 0; j < N; j++)
@@ -146,16 +158,21 @@ namespace DiskGame
             disks[i]->setYCenter(0.1);
         }
     }
+    */ // !
 
     // Ініціалізація даних (виконується спочатку, а потім з кожним оновленням гри):
     void Scene::initialize()
     {
+        // !
+        /*
         resetArr();      // початкове заповнення масиву fields
                          // "Тасування" масиву. Оскільки двовимірний масив у C++ зберігається як 
                          // одновимірний, здійснюємо його приведення до типу одновимірного масиву:
         GraphUtils::shuffle((int *)fields, (M - 1) * N);
         allocateDisks(); // розташування дисків відповідно до масиву fields
-                         // Ініціалізація елементів даних:
+        */
+
+        // Ініціалізація елементів даних:
         distZ = -1.7;
         angleX = -10;
         angleY = 30;
@@ -235,7 +252,8 @@ namespace DiskGame
         float lightAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; // колір фонового освітлення 
         float lightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // колір дифузного освітлення 
         float lightSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };// колір дзеркального відображення
-        float lightPosition[] = { 1.0f, 1.0f, 1.0f, 0.0f };// розташування джерела світла
+        // ! float lightPosition[] = { 0.0f, 1.0f, 1.0f, 0.0f };// розташування джерела світла
+        float lightPosition[] = { -1.0f, 2.0f, 1.0f, 0.0f };// розташування джерела світла
 
         // Встановлюємо параметри джерела світла:
         glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
@@ -246,11 +264,13 @@ namespace DiskGame
         // Визначаємо блакитний колір для очищення:
         if (finish)
         {
-            glClearColor(0, 0.7, 0.7, 0);
+            // ! glClearColor(0, 0.7, 0.7, 0);
+            glClearColor(0.98, 0.92, 0.94, 0);
         }
         else
         {
-            glClearColor(0, 0.5, 0.5, 0);
+            // ! glClearColor(0, 0.5, 0.5, 0);
+            glClearColor(0.98, 0.92, 0.94, 0);
         }
 
         // Очищуємо буфери:
@@ -322,8 +342,11 @@ namespace DiskGame
         // Зберігаємо поточні координати миші:
         mouseX = x;
         mouseY = y;
+
         if ((state == GLUT_UP)) // кнопка віджата
         {
+            // ! 
+            /*
             downAllDisks();
             // Перевірка закінчення гри:
             if (fields[M - 1][0] == 1 && fields[M - 1][1] == 2 && fields[M - 1][2] == 3)
@@ -331,6 +354,7 @@ namespace DiskGame
                 finish = true;
             }
             this->button = -1;  // ніяка кнопка не натиснута
+            */
             return;
         }
         this->button = button;  // зберігаємо інформацію про кнопки
@@ -341,7 +365,7 @@ namespace DiskGame
         // Вибираємо диск для пересування:
         if (button == 0 && findNearest(x, y, xFrom, zFrom))
         {
-            upDisk(xFrom, zFrom);
+            // ! upDisk(xFrom, zFrom);
         }
     }
 
@@ -350,6 +374,8 @@ namespace DiskGame
     {
         switch (button)
         {
+        // !
+        /*
         case 0: // ліва кнопка - пересування диску
             if (finish)
                 break;
@@ -360,6 +386,7 @@ namespace DiskGame
                 zFrom = zTo;
             }
             break;
+        */
         case 2: // права кнопка - обертання сцени
             angleX += x - mouseX;
             angleY += y - mouseY;
@@ -367,6 +394,7 @@ namespace DiskGame
             mouseY = y;
             break;
         }
+        
     }
 
     // Оброблювач подій, пов'язаних з натисненням функціональних клавіш і стрілок 

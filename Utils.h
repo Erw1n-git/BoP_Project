@@ -9,6 +9,10 @@
 namespace GraphUtils
 {
     // Попередній опис масивів, які визначають кольори:
+    extern float diffBoardColor[];
+    extern float ambiBoardColor[];
+    extern float specBoardColor[];
+
     extern float diffWhite[];
     extern float ambiWhite[];
     extern float specWhite[];

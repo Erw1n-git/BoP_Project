@@ -1,6 +1,6 @@
 #include "Board.h"
 
-namespace DiskGame
+namespace Game
 {
 
     void Board::draw()

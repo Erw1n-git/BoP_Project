@@ -7,7 +7,7 @@
 #include "Shape.h"
 #include "../Utils.h"
 
-namespace DiskGame
+namespace Game
 {
     // Клас, який відповідає за малювання стрижня
     class Cube : public Shape

@@ -3,6 +3,10 @@
 namespace GraphUtils
 {
     // Визначення кольорів:
+    float diffBoardColor[] = { 0.73f, 0.68f, 0.62f };
+    float ambiBoardColor[] = { 0.65f, 0.6f, 0.55f };
+    float specBoardColor[] = { 0.81f, 0.75f, 0.7f };
+
     float diffWhite[] = { 1.0f, 1.0f, 1.0f };
     float ambiWhite[] = { 0.8f, 0.8f, 0.8f };
     float specWhite[] = { 1.0f, 1.0f, 1.0f };

@@ -1,6 +1,6 @@
 #include "Cube.h"
 
-namespace DiskGame
+namespace Game
 {
     Cube::Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
@@ -77,14 +77,12 @@ namespace DiskGame
         // Масштабування тексту:
 
         // !float textScale = 0.0016 * getYSize();
+        // Визначення та встановлення розміру тексту
         float textScale = 0.00032;
-        float lineWidth = 6000.0 * textScale;
-
-        glLineWidth(lineWidth);
-
-        glScalef(textScale, textScale, textScale);
-
         float textWidth = 0.0f;
+        float lineWidth = 6000.0 * textScale;
+        glLineWidth(lineWidth);
+        glScalef(textScale, textScale, textScale);
 
         std::string text = std::to_string(textValue);
         for (char c : text) {
