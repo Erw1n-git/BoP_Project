@@ -16,6 +16,7 @@ namespace Game
     void Cube::draw()
     {
         // Визначення властивостей матеріалу:
+        // glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, getDiffColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getAmbiColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, getDiffColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, getSpecColor());
@@ -98,6 +99,8 @@ namespace Game
         glRotatef(-90, 1, 0, 0);
 
         // Виведення кожного символу тексту:
+        //if (textValue <= 4) 
+        //glColor3f(0.47f, 0.44f, 0.4f); // Сірий колір тексту
         glColor3f(1.0, 1.0, 1.0);  // Білий колір тексту
         // ! glPushMatrix();
         for (char c : text)
@@ -115,6 +118,41 @@ namespace Game
 
         // Відновлення поточної матриці зі стека:
         glPopMatrix();
+
+        // Оновлення кольору в залежності від значення тексту(textValue):
+        updateColor();
+    }
+
+    void Cube::setTextValue(unsigned int textValue)
+    {
+        this->textValue = textValue;
+        Cube::updateColor();
+    }
+
+    unsigned int Cube::getTextValue() const
+    {
+        return textValue;
+    }
+
+    void Cube::updateColor()
+    {
+        switch(textValue)
+        {
+            case 2:
+                setColors(diffCubeColor2, ambiCubeColor2, specCubeColor2);
+                break;
+            case 4:
+                setColors(diffCubeColor4, ambiCubeColor4, specCubeColor4);
+                break;
+            case 8:
+                setColors(diffCubeColor8, ambiCubeColor8, specCubeColor8);
+                break;
+            case 16:
+                setColors(diffCubeColor16, ambiCubeColor16, specCubeColor16);
+                break;
+            default:
+                break;
+        }
     }
 
 }

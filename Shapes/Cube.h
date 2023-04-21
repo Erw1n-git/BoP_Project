@@ -10,6 +10,8 @@
 namespace Game
 {
     // Клас, який відповідає за малювання стрижня
+    using namespace GraphUtils;
+     
     class Cube : public Shape
     {
     private:
@@ -22,8 +24,10 @@ namespace Game
             unsigned int textValue);
         virtual void draw();
 
-        void setTextValue(unsigned int textValue) { this->textValue = textValue; }
-        unsigned int getTextValue() { return textValue; }
+        void setTextValue(unsigned int textValue);
+        unsigned int getTextValue() const;
+
+        void updateColor();
     };
 }
 #endif

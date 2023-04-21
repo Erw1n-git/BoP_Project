@@ -13,6 +13,22 @@ namespace GraphUtils
     extern float ambiBoardColor[];
     extern float specBoardColor[];
 
+    extern float diffCubeColor2[];
+    extern float ambiCubeColor2[];
+    extern float specCubeColor2[];
+
+    extern float diffCubeColor4[];
+    extern float ambiCubeColor4[];
+    extern float specCubeColor4[];
+
+    extern float diffCubeColor8[];
+    extern float ambiCubeColor8[];
+    extern float specCubeColor8[];
+
+    extern float diffCubeColor16[];
+    extern float ambiCubeColor16[];
+    extern float specCubeColor16[];
+
     extern float diffWhite[];
     extern float ambiWhite[];
     extern float specWhite[];

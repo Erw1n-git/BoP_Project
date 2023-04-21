@@ -7,6 +7,22 @@ namespace GraphUtils
     float ambiBoardColor[] = { 0.65f, 0.6f, 0.55f };
     float specBoardColor[] = { 0.81f, 0.75f, 0.7f };
 
+    float diffCubeColor2[] = { 0.93f, 0.89f, 0.85f };
+    float ambiCubeColor2[] = { 0.8f, 0.8f, 0.8f };
+    float specCubeColor2[] = { 0.9f, 0.9f, 0.9f };
+
+    float diffCubeColor4[] = { 0.925f, 0.878f, 0.784f };
+    float specCubeColor4[] = { 0.992f, 0.964f, 0.890f };
+    float ambiCubeColor4[] = { 0.925f, 0.878f, 0.784f };
+
+    float diffCubeColor8[] = { 0.95f, 0.7f, 0.47f };
+    float specCubeColor8[] = { 0.8f, 0.8f, 0.8f };
+    float ambiCubeColor8[] = { 0.47f, 0.44f, 0.4f };
+
+    float diffCubeColor16[] = { 0.92f, 0.55f, 0.32f };
+    float specCubeColor16[] = { 0.99f, 0.80f, 0.63f };
+    float ambiCubeColor16[] = { 0.74f, 0.44f, 0.25f };
+
     float diffWhite[] = { 1.0f, 1.0f, 1.0f };
     float ambiWhite[] = { 0.8f, 0.8f, 0.8f };
     float specWhite[] = { 1.0f, 1.0f, 1.0f };

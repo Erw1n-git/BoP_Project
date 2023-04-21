@@ -18,7 +18,18 @@ namespace Game
         {
             for (int j = 0; j < N; j++)
             {
-                shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffGray, ambiGray, specGray, 1024));
+                if(j == 0)
+                {
+                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor2, ambiCubeColor2, specCubeColor2, 16));
+                }
+                else if(j == 1)
+                {
+                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 4));
+                }
+                else 
+                {
+                    shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 8));
+                }
             }
         }
 
@@ -253,7 +264,7 @@ namespace Game
         float lightDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // колір дифузного освітлення 
         float lightSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };// колір дзеркального відображення
         // ! float lightPosition[] = { 0.0f, 1.0f, 1.0f, 0.0f };// розташування джерела світла
-        float lightPosition[] = { -1.0f, 2.0f, 1.0f, 0.0f };// розташування джерела світла
+        float lightPosition[] = { -1.0f, 2.0f, 1.9f, 0.0f };// розташування джерела світла
 
         // Встановлюємо параметри джерела світла:
         glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
