@@ -4,17 +4,55 @@ namespace Game
 {
     Cube::Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
-            float *diffColor, float *ambiColor, float *specColor,
-            unsigned int textValue)
+            int board_grid_x, int board_grid_y, unsigned int textValue)
             : Shape(xCenter, yCenter, zCenter,
                 xSize, ySize, zSize,
-                specColor, diffColor, ambiColor)
+                nullptr, nullptr, nullptr)
     { 
         this->textValue = textValue;
+        this->board_grid_x = board_grid_x;
+        this->board_grid_y = board_grid_y;
+
+        // Оновлення кольору в залежності від значення тексту(textValue):
+        updateColor();
+    }
+
+    void Cube::setBoardGrid(int board_grid_x, int board_grid_y)
+    {
+        this->board_grid_x = board_grid_x;
+        this->board_grid_y = board_grid_y;
+    }
+    
+    void Cube::setMerged(bool merged)
+    {
+        this->merged = merged;
+    }
+
+    int Cube::getBoardGridX() const
+    {
+        return board_grid_x;      
+    }
+
+    int Cube::getBoardGridY() const
+    {
+        return board_grid_y;
+    }
+
+    void Cube::setPosition(float x, float y, float z)
+    {
+        setXCenter(x);
+        setYCenter(y);
+        setZCenter(z);
+    }
+
+    bool Cube::isMerged() const
+    {
+        return merged;
     }
 
     void Cube::draw()
     {
+
         // Визначення властивостей матеріалу:
         // glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, getDiffColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getAmbiColor());

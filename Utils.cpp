@@ -87,6 +87,18 @@ namespace GraphUtils
     float ambiViolet[] = { 0.2f, 0.2f, 0.2f };
     float specViolet[] = { 0.8f, 0.8f, 0.8f };
 
+    // Перерахування індексу масиву fields в координату x
+    float allocX(int i)
+    {
+        return xStep * i - (N - 1) * xStep / 2;
+    }
+
+    // Перерахування індексу масиву fields в координату z
+    float allocZ(int i)
+    {
+        return zStep * i - (M - 1) * zStep / 2;
+    }
+
     // Випадкове "тасування" одновимірного масиву цілих чисел
     void shuffle(int *a, int size)
     {

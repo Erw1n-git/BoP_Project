@@ -2,9 +2,8 @@
 
 namespace Game
 {
-    using namespace GraphUtils;
 
-    // Параметри конструктора - відстань між окремими стрижнями:
+    // Параметри конструктора - відстань між окремими кубами:
     Scene::Scene(float xStep, float zStep)
     {
         this->xStep = xStep;
@@ -12,11 +11,39 @@ namespace Game
 
         // Додаємо дошку сірого кольору. 
         // Розміри визначаємо так, щоб поміщалися всі стрижні:
-        shapes.push_back(new Board(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor));
+        // std::shared_ptr<Board> board = std::make_shared<Board>(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor);
+        // shapes.push_back(board);
+
+        board = std::make_shared<Board>(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor);
+
+        board->addRandomCube();
+        board->addRandomCube();
+        board->printGrid();
+
+        // Генеруємо два випадкових куба
+        //std::shared_ptr<Cube> cube1 = board->addRandomCube();
+        //std::shared_ptr<Cube> cube2 = board->addRandomCube();
+        
+        //shapes.push_back(cube1);
+        //shapes.push_back(cube2);
+
+        // ! shapes.push_back(new Board(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor));
         // Додаємо стрижні (крім останнього ряду):
         for (int i = 0; i < M; i++)
         {
-            for (int j = 0; j < N; j++)
+            // for (int j = 0; j < 2; ++j)
+            // {
+            //     int cube_x = rand() % 4;
+            //     int cube_y = rand() % 4;
+            //     int cube_value = rand() % 2 == 0 ? 2 : 4;
+
+            //     board->grid.insert(board->grid.begin() + cube_x, std::vector<Cube*>());
+
+            //     board->grid[cube_x][cube_y] = new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor1, ambiCubeColor1, specCubeColor1, 1024);
+            // }
+
+            // !
+            /*for (int j = 0; j < N; j++)
             {
                 if(j == 0)
                 {
@@ -30,7 +57,7 @@ namespace Game
                 {
                     shapes.push_back(new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor4, ambiCubeColor4, specCubeColor4, 512));
                 }
-            }
+            }*/
         }
 
         // !
@@ -48,14 +75,29 @@ namespace Game
         initialize();
     }
 
-    Scene::~Scene()
-    {
-        // Видаляємо всі фігури:
-        for (int i = 0; i < shapes.size(); i++)
-        {
-            delete shapes[i];
-        }
-    }
+    // !
+    // Scene::~Scene()
+    // {
+    //     // Видаляємо всі фігури:
+    //     for (int i = 0; i < shapes.size(); i++)
+    //     {
+    //         delete shapes[i];
+    //     }
+    // }
+
+    // !
+    // // Перерахування індексу масиву fields в координату x
+    // float Scene::allocX(int i)
+    // {
+    //     return xStep * i - (N - 1) * xStep / 2;
+    // }
+
+    // // Перерахування індексу масиву fields в координату z
+    // float Scene::allocZ(int i)
+    // {
+    //     return zStep * i - (M - 1) * zStep / 2;
+    // }
+
 
     // ! 
     /*
@@ -77,18 +119,6 @@ namespace Game
         }
     } */
     
-    // Перерахування індексу масиву fields в координату x
-    float Scene::allocX(int i)
-    {
-        return  xStep * i - (N - 1) * xStep / 2;
-    }
-
-    // Перерахування індексу масиву fields в координату z
-    float Scene::allocZ(int i)
-    {
-        return  zStep * i - (M - 1) * zStep / 2;
-    }
-
     // !
     /*
     // Розташування дисків відповідно до вмісту масиву fields
@@ -323,11 +353,15 @@ namespace Game
         // Додаємо джерело світла № 0 (їх може бути до 8), зараз воно світить з "очей":
         glEnable(GL_LIGHT0);
 
+        // !
         // Малюємо усі фігури:
-        for (int i = 0; i < shapes.size(); i++)
-        {
-            shapes[i]->draw();
-        }
+        // for (int i = 0; i < shapes.size(); i++)
+        // {
+        //     shapes[i]->draw();
+        // }
+
+        // Малюємо дошку з усіма кубами
+        board->draw();
 
         // Вимикаємо все, що включили:
         glDisable(GL_LIGHT0);
@@ -429,6 +463,24 @@ namespace Game
             break;
         case GLUT_KEY_F2:   // нова гра
             initialize();
+            break;
+        }
+    }
+
+    // Обробка подій від клавіатури:
+    void Scene::on_keyboard(unsigned char key, int x, int y)
+    {
+        switch (key)
+        {
+        case 'W':
+        case 'w':
+            board->moveCubes(CUBES_MOVE_UP);
+            break;
+        case 27:
+            exit(0);
+            break;
+        
+        default:
             break;
         }
     }

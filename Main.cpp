@@ -1,6 +1,7 @@
 // main.cpp
 #include <GL/glut.h>
 #include "Scene.h"
+#include "Utils.h"
 
 using Game::Scene;
 
@@ -39,8 +40,7 @@ void on_special(int key, int x, int y)
 void on_keyboard(unsigned char key, int x, int y)
 {
     // Обробка подій від клавіатури:
-    if (key == 27)
-        exit(0);
+    scene->on_keyboard(key, x ,y);
 }
 
 void on_timer(int value)
@@ -53,7 +53,7 @@ void on_timer(int value)
 int main(int argc, char* argv[])
 {
     glutInit(&argc, argv);         // ініціалізуємо GLUT
-    scene = new Scene(0.23, 0.23);   // створюємо об'єкт "сцена"
+    scene = new Scene(GraphUtils::xStep, GraphUtils::zStep);   // створюємо об'єкт "сцена"
     glutInitWindowSize(1200, 1000);  // встановлюємо розміри вікна
     // ! glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);// ініціалізуємо режими відображення
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);// ініціалізуємо режими відображення

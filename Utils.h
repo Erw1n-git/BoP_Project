@@ -8,6 +8,14 @@
 
 namespace GraphUtils
 {
+    // Визначення основних значень гри
+    const int N = 4; // кількість рядків  поля
+    const int M = 4; // кількість колонок поля
+
+    // відстань між окремими кубами:
+    const float xStep = 0.23f;
+    const float zStep = 0.23f;
+
     // Попередній опис масивів, які визначають кольори:
     extern float diffBoardColor[];
     extern float ambiBoardColor[];
@@ -94,6 +102,12 @@ namespace GraphUtils
     extern float specViolet[];
 
     const float shininess = 64; // блиск
+
+    // Перерахування індексу масиву fields в координату x
+    float allocX(int i);
+
+    // Перерахування індексу масиву fields в координату z
+    float allocZ(int i);
 
     // Випадкове "тасування" одновимірного масиву цілих чисел
     void shuffle(int *a, int size);
