@@ -106,6 +106,7 @@ namespace Game
                         {
                             grid[target - 1][j] = std::move(grid[target][j]);
                             grid[target - 1][j]->setPosition(allocX(j), 0.15, allocZ(target - 1));
+                            grid[target - 1][j]->setGridCoords(target - 1, j);
                             grid[target][j] = nullptr;
                         }
                         target--;
@@ -134,6 +135,7 @@ namespace Game
                         {
                             grid[target - 1][j] = std::move(grid[target][j]);
                             grid[target - 1][j]->setPosition(allocX(j), 0.15, allocZ(target - 1));
+                            grid[target - 1][j]->setGridCoords(target - 1, j);
                             grid[target][j] = nullptr;
                         }
                         target--;
@@ -156,6 +158,7 @@ namespace Game
                         {
                             grid[target + 1][j] = std::move(grid[target][j]);
                             grid[target + 1][j]->setPosition(allocX(j), 0.15, allocZ(target + 1));
+                            grid[target + 1][j]->setGridCoords(target + 1, j);
                             grid[target][j] = nullptr;
                         }
                         target++;
@@ -184,6 +187,7 @@ namespace Game
                         {
                             grid[target + 1][j] = std::move(grid[target][j]);
                             grid[target + 1][j]->setPosition(allocX(j), 0.15, allocZ(target + 1));
+                            grid[target + 1][j]->setGridCoords(target + 1, j);
                             grid[target][j] = nullptr;
                         }
                         target++;
@@ -206,6 +210,7 @@ namespace Game
                         {
                             grid[i][target - 1] = std::move(grid[i][target]);
                             grid[i][target - 1]->setPosition(allocX(target - 1), 0.15, allocZ(i));
+                            grid[i][target - 1]->setGridCoords(i, target - 1);
                             grid[i][target] = nullptr;
                         }
                         target--;
@@ -234,6 +239,7 @@ namespace Game
                         {
                             grid[i][target - 1] = std::move(grid[i][target]);
                             grid[i][target - 1]->setPosition(allocX(target - 1), 0.15, allocZ(i));
+                            grid[i][target - 1]->setGridCoords(i, target - 1);
                             grid[i][target] = nullptr;
                         }
                         target--;
@@ -256,6 +262,7 @@ namespace Game
                         {
                             grid[i][target + 1] = std::move(grid[i][target]);
                             grid[i][target + 1]->setPosition(allocX(target + 1), 0.15, allocZ(i));
+                            grid[i][target + 1]->setGridCoords(i, target + 1);
                             grid[i][target] = nullptr;
                         }
                         target++;
@@ -284,6 +291,7 @@ namespace Game
                         {
                             grid[i][target + 1] = std::move(grid[i][target]);
                             grid[i][target + 1]->setPosition(allocX(target + 1), 0.15, allocZ(i));
+                            grid[i][target + 1]->setGridCoords(i, target + 1);
                             grid[i][target] = nullptr;
                         }
                         target++;
@@ -293,6 +301,7 @@ namespace Game
             }
             break;       
         default:
+            std::cout << "*[WARNING]* Function Board.cpp::moveCubes() has been given wrong direction!" << std::endl;
             break;
         }
 
@@ -345,14 +354,23 @@ namespace Game
         std::cout << "-------------------" << std::endl;
     }
 
+    // !
+    // void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2)
+    // {
+    //     cube2->setValue(cube2->getValue() * 2); // Подвоєння значення куба cube2
+    //     grid[allocX(cube2->)];
+    // }
+
+    
     void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2)
     {
         cube2->setValue(cube2->getValue() * 2); // Подвоєння значення куба cube2
-        std::cout << "test 3" << std::endl;
         cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Updating cube2's position to match cube1's position
+        std::cout << "Cube2 pos X: " << cube2->getGridX() << " Z: " << cube2->getGridZ() << std::endl;
         cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
         cube1.reset(); // Видалення cube1 з поля гри
     }
+    
 
     void Board::draw()
     {

@@ -4,45 +4,45 @@ namespace Game
 {
     Cube::Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
-            int board_grid_x, int board_grid_y, unsigned int value)
+            int gridX, int gridZ, unsigned int value)
             : Shape(xCenter, yCenter, zCenter,
                 xSize, ySize, zSize,
                 nullptr, nullptr, nullptr)
     { 
         this->value = value;
-        //this->board_grid_x = board_grid_x;
-        //this->board_grid_y = board_grid_y;
+        this->gridX = gridX;
+        this->gridZ = gridZ;
 
         // Оновлення кольору в залежності від значення тексту(Value):
         updateColor();
     }
 
-    // void Cube::setBoardGrid(int board_grid_x, int board_grid_y)
-    // {
-    //     this->board_grid_x = board_grid_x;
-    //     this->board_grid_y = board_grid_y;
-    // }
-    
-    void Cube::setMerged(bool merged)
+    void Cube::setGridCoords(int gridX, int gridZ)
     {
-        this->merged = merged;
+        this->gridX = gridX;
+        this->gridZ = gridZ;
     }
 
-    // int Cube::getBoardGridX() const
-    // {
-    //     return board_grid_x;      
-    // }
+    int Cube::getGridX() const
+    {
+        return gridX;      
+    }
 
-    // int Cube::getBoardGridY() const
-    // {
-    //     return board_grid_y;
-    // }
+    int Cube::getGridZ() const
+    {
+        return gridZ;
+    }
 
     void Cube::setPosition(float x, float y, float z)
     {
         setXCenter(x);
         setYCenter(y);
         setZCenter(z);
+    }
+
+    void Cube::setMerged(bool merged)
+    {
+        this->merged = merged;
     }
 
     bool Cube::isMerged() const

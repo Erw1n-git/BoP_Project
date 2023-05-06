@@ -2,11 +2,13 @@
 #define BOARD_H
 
 #include <memory>
+#include <chrono>
+#include <thread>
 #include <ctime>
 #include <random>
 #include <cstdlib>
 
-// !
+
 #include <iostream>
 
 #include <GL/glut.h>
