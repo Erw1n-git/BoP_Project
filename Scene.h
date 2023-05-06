@@ -61,6 +61,9 @@ namespace Game
         bool findNearest(int x, int z, int& x1, int& z1);
         void resetArr();
 
+        void on_win();
+        void on_lose();
+
     public:
 
         Scene(float xStep, float zStep);

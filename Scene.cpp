@@ -16,9 +16,10 @@ namespace Game
 
         board = std::make_shared<Board>(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor);
 
-        board->addRandomCube();
-        board->addRandomCube();
-        board->printGrid();
+        // !
+        //board->addRandomCube();
+        //board->addRandomCube();
+        //board->printGrid();
 
         // Генеруємо два випадкових куба
         //std::shared_ptr<Cube> cube1 = board->addRandomCube();
@@ -213,10 +214,15 @@ namespace Game
         allocateDisks(); // розташування дисків відповідно до масиву fields
         */
 
+        // Ініціалізація кубів у полі:
+        board->resetGrid(); // Чистимо поле, на випадок, якщо воно заповнене кубами з минулої спроби
+        board->addRandomCube();
+        board->addRandomCube();
+
         // Ініціалізація елементів даних:
         distZ = -1.7;
-        angleX = -10;
-        angleY = 30;
+        angleX = 2;
+        angleY = 77;
         time = 0;
         finish = false;
     }
@@ -271,6 +277,20 @@ namespace Game
         {
             return false;
         }
+    }
+
+    // Перемога в грі
+    void Scene::on_lose()
+    {
+        std::cout << "You lost!" << std::endl;
+        finish = true;
+    }
+
+    // Поразка в грі
+    void Scene::on_win()
+    {
+        std::cout << "You won!" << std::endl;
+        finish = true;
     }
 
     // Оброблювач події, пов'язаної з перемалюванням вікна
@@ -470,28 +490,71 @@ namespace Game
     // Обробка подій від клавіатури:
     void Scene::on_keyboard(unsigned char key, int x, int y)
     {
+        int res;
         switch (key)
         {
         // Рухаємо куби догори при натисканні клавиш 'W' або 'w'
         case 'W':
         case 'w':
-            board->moveCubes(MOVE_CUBES_UP);
+            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            res = board->moveCubes(MOVE_CUBES_UP);
+            if (res < 0)
+            {
+                on_lose();
+            } 
+            else if (res > 0)
+            {
+                on_win();
+            }
             break;
         // Рухаємо куби донизу при натисканні клавиш 'S' або 's'
         case 'S':
         case 's':
-            board->moveCubes(MOVE_CUBES_DOWN);
+            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            res = board->moveCubes(MOVE_CUBES_DOWN);
+            if (res < 0)
+            {
+                on_lose();
+            } 
+            else if (res > 0)
+            {
+                on_win();
+            }
             break;
         // Рухаємо куби вліво при натисканні клавиш 'A' або 'a'
         case 'A':
         case 'a':
-            board->moveCubes(MOVE_CUBES_LEFT);
+            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            res = board->moveCubes(MOVE_CUBES_LEFT);
+            if (res < 0)
+            {
+                on_lose();
+            } 
+            else if (res > 0)
+            {
+                on_win();
+            }
             break;
         // Рухаємо куби вправо при натисканні клавиш 'D' або 'd'
         case 'D':
         case 'd':
-            board->moveCubes(MOVE_CUBES_RIGHT);
+            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            res = board->moveCubes(MOVE_CUBES_RIGHT);
+            if (res < 0)
+            {
+                on_lose();
+            } 
+            else if (res > 0)
+            {
+                on_win();
+            }
             break;
+        // case 'h':
+        // case 'H':
+        //     std::cout << "DistZ: " << distZ << std::endl;
+        //     std::cout << "AngleX: " << angleX << std::endl;
+        //     std::cout << "AngleY: " << angleY << std::endl;
+        //     break;
         case 27:
             exit(0);
             break;
