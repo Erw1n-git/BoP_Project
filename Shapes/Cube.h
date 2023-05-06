@@ -15,25 +15,25 @@ namespace Game
     class Cube : public Shape
     {
     private:
-        int board_grid_x;
-        int board_grid_y;
-        unsigned int textValue;
+        //int board_grid_x;
+        //int board_grid_y;
+        unsigned int value;
         bool merged;
 
     public:
         Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
-            int board_grid_x, int board_grid_y, unsigned int textValue);
+            int board_grid_x, int board_grid_y, unsigned int value);
         virtual void draw();
 
-        void setTextValue(unsigned int textValue);
-        unsigned int getTextValue() const;
+        void setValue(unsigned int value);
+        unsigned int getValue() const;
 
         void setBoardGrid(int x, int y);
         void setMerged(bool merged);
 
-        int getBoardGridX() const;
-        int getBoardGridY() const;
+        //int getBoardGridX() const;
+        //int getBoardGridY() const;
         bool isMerged() const;
 
         void updateColor();

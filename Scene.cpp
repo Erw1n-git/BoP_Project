@@ -472,9 +472,25 @@ namespace Game
     {
         switch (key)
         {
+        // Рухаємо куби догори при натисканні клавиш 'W' або 'w'
         case 'W':
         case 'w':
-            board->moveCubes(CUBES_MOVE_UP);
+            board->moveCubes(MOVE_CUBES_UP);
+            break;
+        // Рухаємо куби донизу при натисканні клавиш 'S' або 's'
+        case 'S':
+        case 's':
+            board->moveCubes(MOVE_CUBES_DOWN);
+            break;
+        // Рухаємо куби вліво при натисканні клавиш 'A' або 'a'
+        case 'A':
+        case 'a':
+            board->moveCubes(MOVE_CUBES_LEFT);
+            break;
+        // Рухаємо куби вправо при натисканні клавиш 'D' або 'd'
+        case 'D':
+        case 'd':
+            board->moveCubes(MOVE_CUBES_RIGHT);
             break;
         case 27:
             exit(0);

@@ -4,39 +4,39 @@ namespace Game
 {
     Cube::Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
-            int board_grid_x, int board_grid_y, unsigned int textValue)
+            int board_grid_x, int board_grid_y, unsigned int value)
             : Shape(xCenter, yCenter, zCenter,
                 xSize, ySize, zSize,
                 nullptr, nullptr, nullptr)
     { 
-        this->textValue = textValue;
-        this->board_grid_x = board_grid_x;
-        this->board_grid_y = board_grid_y;
+        this->value = value;
+        //this->board_grid_x = board_grid_x;
+        //this->board_grid_y = board_grid_y;
 
-        // Оновлення кольору в залежності від значення тексту(textValue):
+        // Оновлення кольору в залежності від значення тексту(Value):
         updateColor();
     }
 
-    void Cube::setBoardGrid(int board_grid_x, int board_grid_y)
-    {
-        this->board_grid_x = board_grid_x;
-        this->board_grid_y = board_grid_y;
-    }
+    // void Cube::setBoardGrid(int board_grid_x, int board_grid_y)
+    // {
+    //     this->board_grid_x = board_grid_x;
+    //     this->board_grid_y = board_grid_y;
+    // }
     
     void Cube::setMerged(bool merged)
     {
         this->merged = merged;
     }
 
-    int Cube::getBoardGridX() const
-    {
-        return board_grid_x;      
-    }
+    // int Cube::getBoardGridX() const
+    // {
+    //     return board_grid_x;      
+    // }
 
-    int Cube::getBoardGridY() const
-    {
-        return board_grid_y;
-    }
+    // int Cube::getBoardGridY() const
+    // {
+    //     return board_grid_y;
+    // }
 
     void Cube::setPosition(float x, float y, float z)
     {
@@ -123,7 +123,7 @@ namespace Game
         glLineWidth(lineWidth);
         glScalef(textScale, textScale, textScale);
 
-        std::string text = std::to_string(textValue);
+        std::string text = std::to_string(value);
         for (char c : text) {
             textWidth += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
@@ -161,20 +161,20 @@ namespace Game
         updateColor();
     }
 
-    void Cube::setTextValue(unsigned int textValue)
+    void Cube::setValue(unsigned int value)
     {
-        this->textValue = textValue;
+        this->value = value;
         Cube::updateColor();
     }
 
-    unsigned int Cube::getTextValue() const
+    unsigned int Cube::getValue() const
     {
-        return textValue;
+        return value;
     }
 
     void Cube::updateColor()
     {
-        switch(textValue)
+        switch(value)
         {
             case 2:
                 setColors(diffCubeColor2, ambiCubeColor2, specCubeColor2);

@@ -15,10 +15,10 @@
 #include "Cube.h"
 #include "../Utils.h"
 
-#define CUBES_MOVE_UP 0
-#define CUBES_MOVE_DOWN 1
-#define CUBES_MOVE_LEFT 2
-#define CUBES_MOVE_RIGHT 3
+#define MOVE_CUBES_UP 0
+#define MOVE_CUBES_DOWN 1
+#define MOVE_CUBES_LEFT 2
+#define MOVE_CUBES_RIGHT 3
 
 namespace Game
 {

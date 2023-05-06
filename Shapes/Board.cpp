@@ -92,7 +92,7 @@ namespace Game
         // Двигаємо куби в залежності від змінной direction
         switch (direction)
         {
-        case CUBES_MOVE_UP:
+        case MOVE_CUBES_UP:
             // Проходження по стовпчиках зліва направо
             for (int j = 0; j < M; j++)
             {
@@ -116,7 +116,7 @@ namespace Game
                 // Об'єднуємо куби з однаковими значеннями
                 for (int i = 0; i < N - 1; i++)
                 {
-                    if (grid[i][j] && grid[i + 1][j] && !grid[i][j]->isMerged() && grid[i][j]->getTextValue() == grid[i + 1][j]->getTextValue())
+                    if (grid[i][j] && grid[i + 1][j] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i + 1][j]->getValue())
                     {
                         mergeCubes(grid[i + 1][j], grid[i][j]);
                         grid[i + 1][j] = nullptr;
@@ -137,6 +137,156 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target--;
+                        moved = true;
+                    }
+                }
+            }
+            break;
+        case MOVE_CUBES_DOWN:
+            // Проходження по стовпчиках зліва направо
+            for (int j = 0; j < M; j++)
+            {
+                // Рухаємо куби вниз
+                for (int i = N - 2; i >= 0; i--)
+                {
+                    int target = i;
+                    while (target < N - 1 && !grid[target + 1][j])
+                    {
+                        if (grid[target][j]) // Перевіряємо чи є куб 
+                        {
+                            grid[target + 1][j] = std::move(grid[target][j]);
+                            grid[target + 1][j]->setPosition(allocX(j), 0.15, allocZ(target + 1));
+                            grid[target][j] = nullptr;
+                        }
+                        target++;
+                        moved = true;
+                    }
+                }
+
+                // Об'єднуємо куби з однаковими значеннями
+                for (int i = N - 1; i > 0; i--)
+                {
+                    if (grid[i][j] && grid[i - 1][j] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i - 1][j]->getValue())
+                    {
+                        mergeCubes(grid[i - 1][j], grid[i][j]);
+                        grid[i - 1][j] = nullptr;
+                        moved = true;
+                    }
+                }
+
+                // Рухаємо куби вниз знову для заповнення пустих клітинок після злиття
+                for (int i = N - 2; i >= 0; i--)
+                {
+                    int target = i;
+                    while (target < N - 1 && !grid[target + 1][j])
+                    {
+                        if (grid[target][j]) // Перевіряємо чи є куб 
+                        {
+                            grid[target + 1][j] = std::move(grid[target][j]);
+                            grid[target + 1][j]->setPosition(allocX(j), 0.15, allocZ(target + 1));
+                            grid[target][j] = nullptr;
+                        }
+                        target++;
+                        moved = true;
+                    }
+                }
+            }
+            break;
+        case MOVE_CUBES_LEFT:
+            // Проходження по рядках зверху вниз
+            for (int i = 0; i < N; i++)
+            {
+                // Рухаємо куби вліво
+                for (int j = 1; j < M; j++)
+                {
+                    int target = j;
+                    while (target > 0 && !grid[i][target - 1])
+                    {
+                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        {
+                            grid[i][target - 1] = std::move(grid[i][target]);
+                            grid[i][target - 1]->setPosition(allocX(target - 1), 0.15, allocZ(i));
+                            grid[i][target] = nullptr;
+                        }
+                        target--;
+                        moved = true;
+                    }
+                }
+
+                // Об'єднуємо куби з однаковими значеннями
+                for (int j = 0; j < M - 1; j++)
+                {
+                    if (grid[i][j] && grid[i][j + 1] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i][j + 1]->getValue())
+                    {
+                        mergeCubes(grid[i][j + 1], grid[i][j]);
+                        grid[i][j + 1] = nullptr;
+                        moved = true;
+                    }
+                }
+
+                // Рухаємо куби вліво знову для заповнення пустих клітинок після злиття
+                for (int j = 1; j < M; j++)
+                {
+                    int target = j;
+                    while (target > 0 && !grid[i][target - 1])
+                    {
+                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        {
+                            grid[i][target - 1] = std::move(grid[i][target]);
+                            grid[i][target - 1]->setPosition(allocX(target - 1), 0.15, allocZ(i));
+                            grid[i][target] = nullptr;
+                        }
+                        target--;
+                        moved = true;
+                    }
+                }
+            }
+            break;
+        case MOVE_CUBES_RIGHT:
+            // Проходження по рядках зверху вниз
+            for (int i = 0; i < N; i++)
+            {
+                // Рухаємо куби вправо
+                for (int j = M - 2; j >= 0; j--)
+                {
+                    int target = j;
+                    while (target < M - 1 && !grid[i][target + 1])
+                    {
+                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        {
+                            grid[i][target + 1] = std::move(grid[i][target]);
+                            grid[i][target + 1]->setPosition(allocX(target + 1), 0.15, allocZ(i));
+                            grid[i][target] = nullptr;
+                        }
+                        target++;
+                        moved = true;
+                    }
+                }
+
+                // Об'єднуємо куби з однаковими значеннями
+                for (int j = M - 1; j > 0; j--)
+                {
+                    if (grid[i][j] && grid[i][j - 1] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i][j - 1]->getValue())
+                    {
+                        mergeCubes(grid[i][j - 1], grid[i][j]);
+                        grid[i][j - 1] = nullptr;
+                        moved = true;
+                    }
+                }
+
+                // Рухаємо куби вправо знову для заповнення пустих клітинок після злиття
+                for (int j = M - 2; j >= 0; j--)
+                {
+                    int target = j;
+                    while (target < M - 1 && !grid[i][target + 1])
+                    {
+                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        {
+                            grid[i][target + 1] = std::move(grid[i][target]);
+                            grid[i][target + 1]->setPosition(allocX(target + 1), 0.15, allocZ(i));
+                            grid[i][target] = nullptr;
+                        }
+                        target++;
                         moved = true;
                     }
                 }
@@ -183,7 +333,7 @@ namespace Game
             {
                 if (grid[i][j])
                 {
-                    std::cout << grid[i][j]->getTextValue() << " ";
+                    std::cout << grid[i][j]->getValue() << " ";
                 }
                 else
                 {
@@ -197,7 +347,7 @@ namespace Game
 
     void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2)
     {
-        cube2->setTextValue(cube2->getTextValue() * 2); // Подвоєння значення куба cube2
+        cube2->setValue(cube2->getValue() * 2); // Подвоєння значення куба cube2
         std::cout << "test 3" << std::endl;
         cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Updating cube2's position to match cube1's position
         cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
