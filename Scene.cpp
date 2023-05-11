@@ -16,6 +16,9 @@ namespace Game
 
         board = std::make_shared<Board>(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor);
 
+        Score::getInstance().addScore(10);
+        std::cout << "SCORE IS: " << Score::getInstance().getScore() << std::endl;
+
         // !
         //board->addRandomCube();
         //board->addRandomCube();
@@ -224,7 +227,8 @@ namespace Game
         angleX = 2;
         angleY = 77;
         time = 0;
-        finish = false;
+        // ! finish = false;
+        gameState = 0;
     }
 
     // Пошук стрижня, найближчого до позиції курсору миші:
@@ -283,14 +287,16 @@ namespace Game
     void Scene::on_lose()
     {
         std::cout << "You lost!" << std::endl;
-        finish = true;
+        // ! finish = true;
+        gameState = -1;
     }
 
     // Поразка в грі
     void Scene::on_win()
     {
         std::cout << "You won!" << std::endl;
-        finish = true;
+        // ! finish = true;
+        gameState = 1;
     }
 
     // Оброблювач події, пов'язаної з перемалюванням вікна
@@ -298,14 +304,29 @@ namespace Game
     {
         char text[128]; // Масив символів, 
                         // Заповнення масиву символів відповідно до стану гри:
-        if (finish)
+        // !
+        // if (finish)
+        // {
+        //     sprintf(text, "GAME OVER.       TIME: %d SEC.       F2 - RESTART GAME       ESC - EXIT", time);
+        // }
+        // else
+        // {
+        //     sprintf(text, "F2 - RESTART GAME        ESC - EXIT      TIME: %d SEC.", time);
+        // }
+
+        switch (gameState)
         {
-            sprintf(text, "Game over. Time: %d sec.   F2 - Restart game   Esc - Exit", time);
+            case -1:
+                sprintf(text, "YOU LOST.        TIME: %d sec.       F2 - RESTART GAME       ESC - EXIT", time);
+                break;
+            case 0:
+                sprintf(text, "TIME: %d sec.        F2 - RESTART GAME       ESC - EXIT", time);
+                break;
+            case 1:
+                sprintf(text, "YOU WON.        TIME: %d sec.        F2 - RESTART GAME       ESC - EXIT", time);
+                break;
         }
-        else
-        {
-            sprintf(text, "F2 - Restart game   Esc - Exit              Time: %d sec.", time);
-        }
+
         // Встановлюємо область перегляду таку, щоб вона вміщувала все вікно:
         glViewport(0, 0, width, height);
 
@@ -323,15 +344,29 @@ namespace Game
         glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
         // Визначаємо блакитний колір для очищення:
-        if (finish)
+        // ! if (finish)
+        // if (gameState != 0)
+        // {
+        //     glClearColor(0, 0.7, 0.7, 0);
+        //     // ! glClearColor(0.98, 0.92, 0.94, 0);
+        // }
+        // else
+        // {
+        //     glClearColor(0, 0.5, 0.5, 0);
+        //     // ! glClearColor(0.98, 0.92, 0.94, 0);
+        // }
+
+        switch (gameState)
         {
-            // ! glClearColor(0, 0.7, 0.7, 0);
-            glClearColor(0.98, 0.92, 0.94, 0);
-        }
-        else
-        {
-            // ! glClearColor(0, 0.5, 0.5, 0);
-            glClearColor(0.98, 0.92, 0.94, 0);
+            case -1:
+                glClearColor(0.97, 0.84, 0.88, 0);
+                break;     
+            case 0:
+                glClearColor(0.98, 0.92, 0.94, 0);
+                break;
+            case 1:
+                glClearColor(0.94, 0.98, 0.92, 0);
+                break;
         }
 
         // Очищуємо буфери:
@@ -344,8 +379,25 @@ namespace Game
         glOrtho(0, 1, 0, 1, -1, 1);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glColor3f(1, 1, 0); // жовтий текст
-        drawString(GLUT_BITMAP_TIMES_ROMAN_24, text, 0.01, 0.95);
+        //!
+        //glColor3d(1, 1, 0); // жовтий текст
+        //glColor3f(0.278, 0.251, 0.227); // жовтий текст
+        switch (gameState)
+        {
+            case -1:
+                glColor3d(0.91, 0.35, 0.21); // Червоний текст
+                break;
+            case 0:
+                glColor3f(0.28, 0.25, 0.28); // Чорний текст
+                break;
+            case 1:
+                //glColor3f(0.37, 0.85, 0.57); 
+                glColor3d(0.004, 0.58, 0.05); // Зелений текст
+                break;
+        }
+        // !
+        //drawString(GLUT_BITMAP_TIMES_ROMAN_24, text, 0.01, 0.95);
+        drawString(GLUT_BITMAP_HELVETICA_18, text, 0.01, 0.95);
         glPopMatrix();
 
         // Включаємо режим роботи з матрицею проекцій:
@@ -423,7 +475,8 @@ namespace Game
             return;
         }
         this->button = button;  // зберігаємо інформацію про кнопки
-        if (finish)
+        // ! if (finish)
+        if (gameState != 0)
         {
             return;
         }
@@ -496,7 +549,8 @@ namespace Game
         // Рухаємо куби догори при натисканні клавиш 'W' або 'w'
         case 'W':
         case 'w':
-            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            // ! if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            if (gameState != 0) break;
             res = board->moveCubes(MOVE_CUBES_UP);
             if (res < 0)
             {
@@ -510,7 +564,8 @@ namespace Game
         // Рухаємо куби донизу при натисканні клавиш 'S' або 's'
         case 'S':
         case 's':
-            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            // ! if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            if (gameState != 0) break;
             res = board->moveCubes(MOVE_CUBES_DOWN);
             if (res < 0)
             {
@@ -524,7 +579,8 @@ namespace Game
         // Рухаємо куби вліво при натисканні клавиш 'A' або 'a'
         case 'A':
         case 'a':
-            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            // ! if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            if (gameState != 0) break;
             res = board->moveCubes(MOVE_CUBES_LEFT);
             if (res < 0)
             {
@@ -538,7 +594,8 @@ namespace Game
         // Рухаємо куби вправо при натисканні клавиш 'D' або 'd'
         case 'D':
         case 'd':
-            if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            // ! if (finish) break; // Виходимо з тіла кейсу, якщо гру завершено
+            if (gameState != 0) break;
             res = board->moveCubes(MOVE_CUBES_RIGHT);
             if (res < 0)
             {
@@ -572,7 +629,8 @@ namespace Game
         tick++;
         if (tick >= 40) // нарахували наступну секунду
         {
-            if (!finish)// секунди нарощуються, якщо гру не закінчено
+            // ! if (!finish)// секунди нарощуються, якщо гру не закінчено
+            if (gameState == 0)
             {
                 time++;
             }

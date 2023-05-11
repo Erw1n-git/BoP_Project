@@ -15,7 +15,7 @@
 
 #include "Shape.h"
 #include "Cube.h"
-#include "../Utils.h"
+#include "../Utils/Utils.h"
 
 #define MOVE_CUBES_UP 0
 #define MOVE_CUBES_DOWN 1
@@ -33,6 +33,7 @@ namespace Game
         std::vector<std::vector<std::shared_ptr<Cube>>> grid; // двовимірний масив векторів для розміщения кубів
 
         void mergeCubes(std::shared_ptr<Cube>& cube, std::shared_ptr<Cube>& cube2, bool* isCube2048);
+        bool hasAvailableMoves();
 
     public:
         /*Board(float xCenter, float yCenter, float zCenter,

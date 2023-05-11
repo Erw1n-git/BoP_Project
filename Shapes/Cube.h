@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 
 #include "Shape.h"
-#include "../Utils.h"
+#include "../Utils/Utils.h"
 
 namespace Game
 {

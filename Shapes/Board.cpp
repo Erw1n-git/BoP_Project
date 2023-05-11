@@ -336,16 +336,18 @@ namespace Game
             }
         }
 
-        if (!moved)
+        if (!hasAvailableMoves())
+            return -1;
+
+        // ! 
+        /*if (!moved)
         {
             std::cout << "Not moved" << std::endl;
             return -1;
-        }
+        }*/
         
         if (isCube2048)
-        {
             return 1;
-        }
 
         printGrid();
         return 0;
@@ -472,6 +474,36 @@ namespace Game
 
     //     cube2->setSize(initialScale, initialScale, initialScale); // повертаємо початковий розмір куба після анімації
     // }
+
+    bool Board::hasAvailableMoves()
+    {
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < M; j++)
+            {
+                // Перевіряємо наявність пустих місць у сітці дошки
+                if (!grid[i][j]) 
+                {
+                    return true;
+                }
+
+                // Перевіряємо можливість "з'єднання" кубів 
+                // з однаковими значеннями по горизонталі
+                if (j < M - 1 && grid[i][j] && grid[i][j + 1] && grid[i][j]->getValue() == grid[i][j + 1]->getValue())
+                {
+                    return true;
+                }
+
+                // Перевіряємо можливість "з'єднання" кубів 
+                // з однаковими значеннями по вертикалі
+                if (i < N - 1 && grid[i][j] && grid[i + 1][j] && grid[i][j]->getValue() == grid[i + 1][j]->getValue())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     void Board::resetGrid()
     {

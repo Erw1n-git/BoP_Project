@@ -7,8 +7,9 @@
 
 #include <GL/glut.h>
 
-#include "Scene.h"
-#include "Utils.h"
+//#include "Scene.h"
+#include "Score.h"
+#include "Utils/Utils.h"
 #include "Shapes/Board.h"
 #include "Shapes/Cube.h"
 #include "Shapes/Shape.h"
@@ -18,6 +19,7 @@
 
 namespace Game
 {
+
     // Основний клас гри, який представляє геометрію сцени,
     // контролює правила гри, розташування елементів,
     // а також реалізує обробку подій GLUT
@@ -33,7 +35,11 @@ namespace Game
         float mouseX, mouseY; // поточні координати
         float width, height;  // Розміри вікна
         float distZ;          // відстань по осі Z до сцени
-        bool finish;          // ознака того, що гру завершено
+        // ! bool finish;          // ознака того, що гру завершено
+        int gameState;  // стан гри: (-1) - гру програно, (0) - гра не завершена (1) - гру виграно 
+        
+        
+        //Score score;
 
         // !
         /*
