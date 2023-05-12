@@ -91,7 +91,6 @@ namespace Game
     // повертає 1, якщо на полі є куб зі значенням 2048
     int Board::moveCubes(int direction)
     {
-        bool moved = false;
         bool isCube2048 = false;
         
         // Двигаємо куби в залежності від змінной direction
@@ -115,7 +114,7 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target--;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -126,7 +125,7 @@ namespace Game
                     {
                         mergeCubes(grid[i + 1][j], grid[i][j], &isCube2048);
                         grid[i + 1][j] = nullptr;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -144,7 +143,7 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target--;
-                        moved = true;
+                        //moved = true;
                     }
                 }
             }
@@ -167,7 +166,7 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target++;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -178,7 +177,7 @@ namespace Game
                     {
                         mergeCubes(grid[i - 1][j], grid[i][j], &isCube2048);
                         grid[i - 1][j] = nullptr;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -196,7 +195,7 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target++;
-                        moved = true;
+                        //moved = true;
                     }
                 }
             }
@@ -219,7 +218,7 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target--;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -230,7 +229,7 @@ namespace Game
                     {
                         mergeCubes(grid[i][j + 1], grid[i][j], &isCube2048);
                         grid[i][j + 1] = nullptr;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -248,7 +247,7 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target--;
-                        moved = true;
+                        //moved = true;
                     }
                 }
             }
@@ -271,7 +270,7 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target++;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -282,7 +281,7 @@ namespace Game
                     {
                         mergeCubes(grid[i][j - 1], grid[i][j], &isCube2048);
                         grid[i][j - 1] = nullptr;
-                        moved = true;
+                        //moved = true;
                     }
                 }
 
@@ -300,7 +299,7 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target++;
-                        moved = true;
+                        //moved = true;
                     }
                 }
             }
@@ -349,7 +348,7 @@ namespace Game
         if (isCube2048)
             return 1;
 
-        printGrid();
+        //printGrid();
         return 0;
     }
 

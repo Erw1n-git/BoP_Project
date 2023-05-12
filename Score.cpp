@@ -16,7 +16,6 @@ namespace Game {
         if (instance == nullptr)
         {
             instance = new Score();
-            //instance->readRecordFromFile();
         }
         return *instance;
     }
@@ -27,7 +26,7 @@ namespace Game {
 
         if (!file.is_open())
         {
-            std::cout << "*[ERROR]* Could not open the file: " << RECORD_FILE << std::endl;
+            std::cout << "*[WARNING]* Could not open the file: " << RECORD_FILE << std::endl;
             return -1;
         }
 
@@ -38,7 +37,7 @@ namespace Game {
             {
                 if (!std::isdigit(c))
                 {
-                    std::cout << "*[ERROR]* The file contains non-digit characters." << std::endl;
+                    std::cout << "*[WARNING]* The file contains non-digit characters." << std::endl;
                     file.close();
                     return -3;
                 }
@@ -49,7 +48,7 @@ namespace Game {
             return 0;
         }
 
-        std::cout << "*[ERROR]* The file is empty" << std::endl;
+        std::cout << "*[WARNING]* The file is empty" << std::endl;
         file.close();
         return -2;
     }
@@ -60,7 +59,7 @@ namespace Game {
 
         if (!file.is_open())
         {
-            std::cout << "*[ERROR]* Could not open the file: " << RECORD_FILE << std::endl;
+            std::cout << "*[WARNING]* Could not open the file: " << RECORD_FILE << std::endl;
             return -1; 
         }
 
@@ -68,7 +67,7 @@ namespace Game {
 
         if (file.fail())
         {
-            std::cout << "*[ERROR]* Could not write record to the file: " << RECORD_FILE << std::endl;
+            std::cout << "*[WARNING]* Could not write record to the file: " << RECORD_FILE << std::endl;
             return -2;
         }
 
@@ -108,7 +107,6 @@ namespace Game {
     void Score::setRecordScore(unsigned int recordScore)
     {
         instance->recordScore = recordScore;
-        std::cout << "This is a test!" << std::endl;
         instance->writeRecordToFile();
     }
 

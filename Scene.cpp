@@ -220,7 +220,7 @@ namespace Game
         board->addRandomCube();
 
         // Ініціалізація рахунків гри
-        int currentScore = Score::getInstance().getCurrentScore();
+        unsigned int currentScore = Score::getInstance().getCurrentScore();
         Score::getInstance().readRecordFromFile();
         if (currentScore > Score::getInstance().getRecordScore())
         {
@@ -296,7 +296,6 @@ namespace Game
     // Перемога в грі
     void Scene::on_lose()
     {
-        std::cout << "You lost!" << std::endl;
         // ! finish = true;
         gameState = -1;
     }
@@ -304,7 +303,6 @@ namespace Game
     // Поразка в грі
     void Scene::on_win()
     {
-        std::cout << "You won!" << std::endl;
         // ! finish = true;
         gameState = 1;
     }
