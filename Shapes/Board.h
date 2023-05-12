@@ -8,13 +8,13 @@
 #include <random>
 #include <cstdlib>
 
-
 #include <iostream>
 
 #include <GL/glut.h>
 
 #include "Shape.h"
 #include "Cube.h"
+#include "../Score.h"
 #include "../Utils/Utils.h"
 
 #define MOVE_CUBES_UP 0

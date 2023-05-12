@@ -152,6 +152,7 @@ namespace Game
             // Збільшення значення зміщення по осі x на ширину символу
             textX += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
+        // TODO: Check whether this glPopMatrix() is needed.
         glPopMatrix();
 
         // Відновлення поточної матриці зі стека:

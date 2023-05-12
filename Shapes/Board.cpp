@@ -372,10 +372,12 @@ namespace Game
     // !
     void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2, bool* isValue2048)
     {
-        cube2->setValue(cube2->getValue() * 2); // Подвоєння значення куба cube2
+        int newValue = cube2->getValue() * 2;
+        cube2->setValue(newValue); // Подвоєння значення куба cube2
         cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
         //std::cout << "Cube2 pos X: " << cube2->getGridX() << " Z: " << cube2->getGridZ() << std::endl;
         cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
+        Score::addCurrentScore(newValue);
 
         float originalScale = 0.2f;
         float scaleFactor = 1.15f;

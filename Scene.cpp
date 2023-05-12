@@ -16,9 +16,6 @@ namespace Game
 
         board = std::make_shared<Board>(0.0, 0.0, 0.0, N * xStep + 0.2, 0.1, M * xStep + 0.2, diffBoardColor, ambiBoardColor, specBoardColor);
 
-        Score::getInstance().addScore(10);
-        std::cout << "SCORE IS: " << Score::getInstance().getScore() << std::endl;
-
         // !
         //board->addRandomCube();
         //board->addRandomCube();
@@ -217,10 +214,23 @@ namespace Game
         allocateDisks(); // розташування дисків відповідно до масиву fields
         */
 
-        // Ініціалізація кубів у полі:
+        // Ініціалізація кубів на полі:
         board->resetGrid(); // Чистимо поле, на випадок, якщо воно заповнене кубами з минулої спроби
         board->addRandomCube();
         board->addRandomCube();
+
+        // Ініціалізація рахунків гри
+        int currentScore = Score::getInstance().getCurrentScore();
+        Score::getInstance().readRecordFromFile();
+        if (currentScore > Score::getInstance().getRecordScore())
+        {
+            Score::getInstance().setRecordScore(currentScore);
+        }
+        if (currentScore > 0)
+        {
+            Score::getInstance().setPreviousScore(currentScore);
+            Score::getInstance().setCurrentScore(0);
+        }
 
         // Ініціалізація елементів даних:
         distZ = -1.7;
@@ -302,8 +312,20 @@ namespace Game
     // Оброблювач події, пов'язаної з перемалюванням вікна
     void Scene::on_paint()
     {
-        char text[128]; // Масив символів, 
-                        // Заповнення масиву символів відповідно до стану гри:
+        // TODO: Remove variables for scores (if they're used only once)
+        unsigned int currentScore = Score::getInstance().getCurrentScore(); 
+        unsigned int previousScore = Score::getInstance().getPreviousScore();
+        unsigned int recordScore = Score::getInstance().getRecordScore();
+
+        //Score::getInstance().setRecordScore(1);
+
+        char textInfo[128]; // Масив символів першої строки
+        char textCurrentScore[128]; // Масив символів строки поточного рахунку
+        char textPreviousScore[128]; // Масив символів строки рахунку минулої гри
+        char textRecordScore[128]; // Масив символів строки рекордного рахунку
+
+        // Заповнення масиву символів відповідно до стану гри:
+
         // !
         // if (finish)
         // {
@@ -317,15 +339,24 @@ namespace Game
         switch (gameState)
         {
             case -1:
-                sprintf(text, "YOU LOST.        TIME: %d sec.       F2 - RESTART GAME       ESC - EXIT", time);
+                sprintf(textInfo, "YOU LOST.        TIME: %d sec.       F2 - RESTART GAME       ESC - EXIT", time);
                 break;
             case 0:
-                sprintf(text, "TIME: %d sec.        F2 - RESTART GAME       ESC - EXIT", time);
+                sprintf(textInfo, "TIME: %d sec.        F2 - RESTART GAME       ESC - EXIT", time);
                 break;
             case 1:
-                sprintf(text, "YOU WON.        TIME: %d sec.        F2 - RESTART GAME       ESC - EXIT", time);
+                sprintf(textInfo, "YOU WON.        TIME: %d sec.        F2 - RESTART GAME       ESC - EXIT", time);
                 break;
         }
+
+        // Заповнення масиву символів рахунків гри
+        //sprintf(textScore, "CURRENT SCORE: %d        PREVIOUS SCORE: %d        RECORD SCORE: %d", 
+        //        currentScore, previousScore, recordScore);
+
+        sprintf(textCurrentScore, "Current score: %d", currentScore);
+        sprintf(textPreviousScore, "Previous score: %d", previousScore);
+        sprintf(textRecordScore, "Record score: %d", recordScore);
+
 
         // Встановлюємо область перегляду таку, щоб вона вміщувала все вікно:
         glViewport(0, 0, width, height);
@@ -397,7 +428,15 @@ namespace Game
         }
         // !
         //drawString(GLUT_BITMAP_TIMES_ROMAN_24, text, 0.01, 0.95);
-        drawString(GLUT_BITMAP_HELVETICA_18, text, 0.01, 0.95);
+        drawString(GLUT_BITMAP_HELVETICA_18, textInfo, 0.01, 0.965);
+        //drawString(GLUT_BITMAP_HELVETICA_18, textScore, 0.01, 0.92);
+        
+        // Встановлюємо чорний текст для строк рахунку
+        glColor3f(0.28, 0.25, 0.28);
+
+        drawString(GLUT_BITMAP_HELVETICA_18, textCurrentScore, 0.01, 0.915);
+        drawString(GLUT_BITMAP_HELVETICA_18, textPreviousScore, 0.01, 0.89);
+        drawString(GLUT_BITMAP_HELVETICA_18, textRecordScore, 0.01, 0.865);
         glPopMatrix();
 
         // Включаємо режим роботи з матрицею проекцій:
