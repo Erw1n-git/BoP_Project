@@ -4,7 +4,7 @@ namespace Game
 {
     Cube::Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
-            int gridX, int gridZ, unsigned int value)
+            int gridX, int gridZ, std::string value)
             : Shape(xCenter, yCenter, zCenter,
                 xSize, ySize, zSize,
                 nullptr, nullptr, nullptr)
@@ -123,8 +123,8 @@ namespace Game
         glLineWidth(lineWidth);
         glScalef(textScale, textScale, textScale);
 
-        std::string text = std::to_string(value);
-        for (char c : text) {
+        // ! std::string text = std::to_string(value);
+        for (char c : value) {
             textWidth += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
 
@@ -141,7 +141,7 @@ namespace Game
         //glColor3f(0.47f, 0.44f, 0.4f); // Сірий колір тексту
         glColor3f(1.0, 1.0, 1.0);  // Білий колір тексту
         // ! glPushMatrix();
-        for (char c : text)
+        for (char c : value)
         {
             // Переміщення до початкової позиції кожного символу тексту
             glTranslatef(textX, textY, textZ);
@@ -162,18 +162,18 @@ namespace Game
         updateColor();
     }
 
-    void Cube::setValue(unsigned int value)
+    void Cube::setValue(std::string value)
     {
         this->value = value;
         Cube::updateColor();
     }
 
-    unsigned int Cube::getValue() const
+    std::string Cube::getValue() const
     {
         return value;
     }
 
-    void Cube::updateColor()
+    /*void Cube::updateColor()
     {
         switch(value)
         {
@@ -212,6 +212,35 @@ namespace Game
                 break;
             default:
                 break;
+        }
+    }*/
+
+    void Cube::updateColor()
+    {
+        if (value == "2") {
+            setColors(diffCubeColor2, ambiCubeColor2, specCubeColor2);
+        } else if (value == "4") {
+            setColors(diffCubeColor4, ambiCubeColor4, specCubeColor4);
+        } else if (value == "8") {
+            setColors(diffCubeColor8, ambiCubeColor8, specCubeColor8);
+        } else if (value == "16") {
+            setColors(diffCubeColor16, ambiCubeColor16, specCubeColor16);
+        } else if (value == "32") {
+            setColors(diffCubeColor32, ambiCubeColor32, specCubeColor32);
+        } else if (value == "64") {
+            setColors(diffCubeColor64, ambiCubeColor64, specCubeColor64);
+        } else if (value == "128") {
+            setColors(diffCubeColor128, ambiCubeColor128, specCubeColor128);
+        } else if (value == "256") {
+            setColors(diffCubeColor256, ambiCubeColor256, specCubeColor256);
+        } else if (value == "512") {
+            setColors(diffCubeColor512, ambiCubeColor512, specCubeColor512);
+        } else if (value == "1024") {
+            setColors(diffCubeColor1024, ambiCubeColor1024, specCubeColor1024);
+        } else if (value == "2048") {
+            setColors(diffCubeColor2048, ambiCubeColor2048, specCubeColor2048);
+        } else {
+            setColors(diffCubeColor2, ambiCubeColor2, specCubeColor2);
         }
     }
 

@@ -2,6 +2,12 @@
 
 namespace GraphUtils
 {
+    // Кількість рядків поля гри
+    int N = 3;
+
+    // Кількість стовпців поля гри
+    int M = 3;
+
     // Визначення кольорів:
     float diffBoardColor[] = { 0.73f, 0.68f, 0.62f };
     float ambiBoardColor[] = { 0.65f, 0.6f, 0.55f };

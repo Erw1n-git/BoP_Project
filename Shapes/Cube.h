@@ -17,17 +17,17 @@ namespace Game
     private:
         int gridX;
         int gridZ;
-        unsigned int value;
+        std::string value;
         bool merged;
 
     public:
         Cube(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
-            int gridX, int gridZ, unsigned int value);
+            int gridX, int gridZ, std::string value);
         virtual void draw();
 
-        void setValue(unsigned int value);
-        unsigned int getValue() const;
+        void setValue(std::string value);
+        std::string getValue() const;
 
         void setGridCoords(int x, int z);
         void setMerged(bool merged);
@@ -39,6 +39,8 @@ namespace Game
         void updateColor();
 
         void setPosition(float x, float y, float z);
+
+        void hitTest() const;
     };
 }
 #endif

@@ -17,6 +17,13 @@ namespace Game
         std::srand(std::time(NULL));
     }
 
+    void Board::createMenu()
+    {
+        grid[0][1] = std::make_shared<Cube>(allocX(0), 0.15, allocZ(1), 0.2, 0.2, 0.2, 0, 1, "4x4");
+        grid[1][1] = std::make_shared<Cube>(allocX(1), 0.15, allocZ(1), 0.2, 0.2, 0.2, 1, 1, "5x5");
+        grid[2][1] = std::make_shared<Cube>(allocX(2), 0.15, allocZ(1), 0.2, 0.2, 0.2, 2, 1, "6x6");
+    }
+
     // !
     
     void Board::addRandomCube()
@@ -47,7 +54,7 @@ namespace Game
         if (!grid[row][col])
         {
             int value = (std::rand() % 2 + 1) * 2;
-            grid[row][col] = std::make_shared<Cube>(allocX(col), 0.15, allocZ(row), 0.2, 0.2, 0.2, row, col, value);
+            grid[row][col] = std::make_shared<Cube>(allocX(col), 0.15, allocZ(row), 0.2, 0.2, 0.2, row, col, std::to_string(value));
         }
         //grid[row][col] = newCube;
         //     board->grid[cube_x][cube_y] = new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor1, ambiCubeColor1, specCubeColor1, 1024);
@@ -371,110 +378,40 @@ namespace Game
     // !
     void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2, bool* isValue2048)
     {
-        int newValue = cube2->getValue() * 2;
-        cube2->setValue(newValue); // Подвоєння значення куба cube2
-        cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
-        //std::cout << "Cube2 pos X: " << cube2->getGridX() << " Z: " << cube2->getGridZ() << std::endl;
-        cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
-        Score::addCurrentScore(newValue);
-
-        float originalScale = 0.2f;
-        float scaleFactor = 1.15f;
-        cube2->setSize(originalScale * scaleFactor, originalScale * scaleFactor, originalScale * scaleFactor);
-
-        int currentTimerId = g_timerFunctionId++;
-        g_timerFunctions[currentTimerId] = [cube2, originalScale](int value) {
-            cube2->setSize(originalScale, originalScale, originalScale);
-        };
-        glutTimerFunc(175, timerCallback, currentTimerId);
-
-        cube1.reset(); // Видалення cube1 з поля гри
-
-        if (cube2->getValue() == 2048)
+        try
         {
-            *isValue2048 = true;
+            int oldValue = std::stoi(cube2->getValue());
+            int newValue = oldValue * 2;
+
+            cube2->setValue(std::to_string(newValue)); // Подвоєння значення куба cube2
+            cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
+            //std::cout << "Cube2 pos X: " << cube2->getGridX() << " Z: " << cube2->getGridZ() << std::endl;
+            cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
+            Score::addCurrentScore(newValue);
+
+            float originalScale = 0.2f;
+            float scaleFactor = 1.15f;
+            cube2->setSize(originalScale * scaleFactor, originalScale * scaleFactor, originalScale * scaleFactor);
+
+            int currentTimerId = g_timerFunctionId++;
+            g_timerFunctions[currentTimerId] = [cube2, originalScale](int value) {
+                cube2->setSize(originalScale, originalScale, originalScale);
+            };
+            glutTimerFunc(175, timerCallback, currentTimerId);
+
+            cube1.reset(); // Видалення cube1 з поля гри
+
+            if (cube2->getValue() == "2048")
+            {
+                *isValue2048 = true;
+            }
+        }
+        catch(const std::invalid_argument& ia)
+        {
+            std::cerr << "Could not convert the cube value to an integer: " << ia.what() << std::endl;
         }
     }
-    
 
-    // void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2)
-    // {
-    //     std::cout << "mergeCubes()" << std::endl;
-
-    //     float cube1InitialX = cube1->getGridX();
-    //     float cube1InitialZ = cube1->getGridZ();
-    //     float cube2InitialX = cube2->getGridX();
-    //     float cube2InitialZ = cube2->getGridZ();
-
-
-    //     if (!cube1 || !cube2) {
-    //         std::cerr << "Error: cube1 or cube2 is nullptr" << std::endl;
-    //         return;
-    //     }
-
-    //     cube2->setValue(cube2->getValue() * 2); // Подвоєння значення куба cube2
-    //     grid[cube1->getGridZ()][cube1->getGridX()] = nullptr; // Видалення cube1 з сітки grid
-    //     grid[cube2->getGridZ()][cube2->getGridX()] = cube2; 
-
-    //     animateCube1MovingToCube2(cube1, cube2); // Анімація руху cube1 до cube2
-    //     grid[cube2->getGridZ()][cube2->getGridX()] = cube2;
-
-    //     animateCube2ScaleChange(cube2); // Анімація злиття cube1 з cube2
-
-    //     cube2->setMerged(true); // Встановлення статусу злиття cube2 в true
-    //     cube1.reset(); // Видалення cube1 з поля гри
-    // }
-
-    // void Board::animateCube1MovingToCube2(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2)
-    // {
-    //     std::cout << "animateCube1MovingToCube2()" << std::endl;
-    //     float animationDuration = 0.2f; // тривалість анімації 
-    //     float startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f; // початковий час
-    //     float endTime = startTime + animationDuration; // кінцевий час
-
-    //     while (true)
-    //     {
-    //         float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f; // поточний час
-    //         float t = (currentTime - startTime) / animationDuration;
-
-    //         if (t >= 1.0f) break;
-
-    //         cube1->setPosition(
-    //             allocX(cube1->getGridX()) * (1.0f - t) + allocX(cube2->getGridX()) * t,
-    //             0.15f,
-    //             allocZ(cube1->getGridZ()) * (1.0f - t) + allocZ(cube2->getGridZ()) * t
-    //         );
-
-    //         glutPostRedisplay(); // оновлення вікна та перерисовка об'єктів
-    //         std::this_thread::sleep_for(std::chrono::milliseconds(16)); // встановити ліміт в ~60 кадрів на секунду
-    //     }
-    // }
-
-    // void Board::animateCube2ScaleChange(std::shared_ptr<Cube>& cube2)
-    // {
-    //     std::cout << "animateCube2ScaleChange()" << std::endl;
-
-    //     float initialScale = 0.2f; // звичайний розмір куба
-    //     float targetScale = 0.25f; // трохи збільшений розмір
-    //     float animationDuration = 0.1f; // тривалість анімації
-    //     float startTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f; // початковий час
-    //     float endTime = startTime + animationDuration; // кінцевий час
-
-    //     while (true)
-    //     {
-    //         float currentTime = glutGet(GLUT_ELAPSED_TIME) / 1000.0f; // поточний час
-    //         float t = (currentTime - startTime) / animationDuration;
-
-    //         if (t >= 1.0f) break;
-
-    //         float scale = initialScale * (1.0f - t) + targetScale * t; // змінюємо розмір з пливом часу анімації
-    //         cube2->setSize(scale, scale, scale); // змінюємо розмір куба
-
-    //         glutPostRedisplay(); // оновлення вікна та перерисовка об'єктів
-    //     }
-
-    //     cube2->setSize(initialScale, initialScale, initialScale); // повертаємо початковий розмір куба після анімації
-    // }
 
     bool Board::hasAvailableMoves()
     {

@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <iostream>
+#include <string>
 #include <memory>
 #include <functional>
 #include <map>
@@ -8,7 +10,6 @@
 #include <random>
 #include <cstdlib>
 
-#include <iostream>
 
 #include <GL/glut.h>
 
@@ -30,7 +31,6 @@ namespace Game
     {
 
     private:
-        std::vector<std::vector<std::shared_ptr<Cube>>> grid; // двовимірний масив векторів для розміщения кубів
 
         void mergeCubes(std::shared_ptr<Cube>& cube, std::shared_ptr<Cube>& cube2, bool* isCube2048);
         bool hasAvailableMoves();
@@ -47,9 +47,13 @@ namespace Game
             float xSize, float ySize, float zSize,
             float *diffColor, float *ambiColor, float *specColor);
         
+        std::vector<std::vector<std::shared_ptr<Cube>>> grid; // двовимірний масив векторів для розміщения кубів
+
         virtual void draw();
 
+        void createMenu();
         void addRandomCube();
+
         int moveCubes(int directions);  // Рухає куби у заданому напрямку
                                         // повертає -1, якщо куби не можуть рухатись
                                         // повертає 0, якщо куби можуть рухатись

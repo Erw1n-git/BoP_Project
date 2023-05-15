@@ -9,8 +9,8 @@
 namespace GraphUtils
 {
     // Визначення основних значень гри
-    const int N = 4; // кількість рядків  поля
-    const int M = 4; // кількість колонок поля
+    extern int N;
+    extern int M;
 
     // відстань між окремими кубами:
     const float xStep = 0.23f;

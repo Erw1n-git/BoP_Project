@@ -28,7 +28,8 @@ namespace Game
 
     private:
         // ! std::vector<std::shared_ptr<Shape>> shapes; // "гнучкий" масив "умних" указівників на елементи гри
-        std::shared_ptr<Board> board; // вказівник на об'єкт Board
+        std::shared_ptr<Board> boardGame; // вказівник на об'єкт Board
+        //std::shared_ptr<Board> boardMenu;
 
         int button;           // кнопка миші (-1 - не натиснута, 0 - ліва, 2 - права)
         float angleX, angleY; // поточний кут повороту сцени 
@@ -36,7 +37,10 @@ namespace Game
         float width, height;  // Розміри вікна
         float distZ;          // відстань по осі Z до сцени
         // ! bool finish;          // ознака того, що гру завершено
-        int gameState;  // стан гри: (-1) - гру програно, (0) - гра не завершена (1) - гру виграно 
+
+        // стан гри: (-1) - гру програно, (0) - гра не завершена,
+        // (1) - гру виграно, (2) - головне меню
+        int gameState;  
         
         
         //Score score;
@@ -57,6 +61,7 @@ namespace Game
         int xFrom, zFrom;     // індекси стрижня, з якого починається пересування
         int xTo, zTo;         // індекси стрижня, яким закінчується пересування
 
+        //void setupMenu();
         void initialize();
         // ! void allocateDisks();
         // ! bool moveDisk(int xFrom, int zFrom, int xTo, int zTo);
@@ -65,10 +70,11 @@ namespace Game
         // float allocX(int i);
         // float allocZ(int i);
         bool findNearest(int x, int z, int& x1, int& z1);
-        void resetArr();
+        //void resetArr();
 
         void on_win();
         void on_lose();
+        void on_menu(int selection_id);
 
     public:
 
