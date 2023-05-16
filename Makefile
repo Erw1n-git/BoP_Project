@@ -32,6 +32,7 @@ Utils.o: Utils/Utils.cpp Utils/Utils.h
 
 clean:
 	rm -f *.o $(TARGET)
+	rm -f *.txt 
 
 debug: $(TARGET)
 	gdb $(TARGET)

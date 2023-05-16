@@ -17,6 +17,34 @@ namespace Game
         std::srand(std::time(NULL));
     }
 
+    void Board::draw()
+    {
+        glMaterialfv(GL_FRONT, GL_AMBIENT, getAmbiColor());
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, getDiffColor());
+        glMaterialfv(GL_FRONT, GL_SPECULAR, getSpecColor());
+        glMaterialf(GL_FRONT, GL_SHININESS, shininess);
+        // Запис поточної матриці в стек
+        // (збереження вмісту поточної матриці для подальшого використання):
+        glPushMatrix();
+        glTranslatef(getXCenter(), getYCenter(), getZCenter());
+        parallelepiped(getXSize(), getYSize(), getZSize());
+
+        // Малюємо усі куби:
+        for (int i = 0; i < N; i++)
+        {
+            for (int j = 0; j < M; j++)
+            {
+                if (grid[i][j])
+                {
+                    grid[i][j]->draw();
+                }
+            }
+        }
+
+        // Відновлення поточної матриці зі стека:
+        glPopMatrix();
+    }
+
     void Board::createMenu()
     {
         grid[0][1] = std::make_shared<Cube>(allocX(0), 0.15, allocZ(1), 0.2, 0.2, 0.2, 0, 1, "4x4");
@@ -80,7 +108,7 @@ namespace Game
                         if (grid[target][j]) // Перевіряємо чи є куб 
                         {
                             grid[target - 1][j] = std::move(grid[target][j]);
-                            grid[target - 1][j]->setPosition(allocX(j), 0.15, allocZ(target - 1));
+                            grid[target - 1][j]->setCoords(allocX(j), 0.15, allocZ(target - 1));
                             grid[target - 1][j]->setGridCoords(target - 1, j);
                             grid[target][j] = nullptr;
                         }
@@ -107,7 +135,7 @@ namespace Game
                         if (grid[target][j]) // Перевіряємо чи є куб 
                         {
                             grid[target - 1][j] = std::move(grid[target][j]);
-                            grid[target - 1][j]->setPosition(allocX(j), 0.15, allocZ(target - 1));
+                            grid[target - 1][j]->setCoords(allocX(j), 0.15, allocZ(target - 1));
                             grid[target - 1][j]->setGridCoords(target - 1, j);
                             grid[target][j] = nullptr;
                         }
@@ -129,7 +157,7 @@ namespace Game
                         if (grid[target][j]) // Перевіряємо чи є куб 
                         {
                             grid[target + 1][j] = std::move(grid[target][j]);
-                            grid[target + 1][j]->setPosition(allocX(j), 0.15, allocZ(target + 1));
+                            grid[target + 1][j]->setCoords(allocX(j), 0.15, allocZ(target + 1));
                             grid[target + 1][j]->setGridCoords(target + 1, j);
                             grid[target][j] = nullptr;
                         }
@@ -156,7 +184,7 @@ namespace Game
                         if (grid[target][j]) // Перевіряємо чи є куб 
                         {
                             grid[target + 1][j] = std::move(grid[target][j]);
-                            grid[target + 1][j]->setPosition(allocX(j), 0.15, allocZ(target + 1));
+                            grid[target + 1][j]->setCoords(allocX(j), 0.15, allocZ(target + 1));
                             grid[target + 1][j]->setGridCoords(target + 1, j);
                             grid[target][j] = nullptr;
                         }
@@ -178,7 +206,7 @@ namespace Game
                         if (grid[i][target]) // Перевіряємо чи є куб 
                         {
                             grid[i][target - 1] = std::move(grid[i][target]);
-                            grid[i][target - 1]->setPosition(allocX(target - 1), 0.15, allocZ(i));
+                            grid[i][target - 1]->setCoords(allocX(target - 1), 0.15, allocZ(i));
                             grid[i][target - 1]->setGridCoords(i, target - 1);
                             grid[i][target] = nullptr;
                         }
@@ -205,7 +233,7 @@ namespace Game
                         if (grid[i][target]) // Перевіряємо чи є куб 
                         {
                             grid[i][target - 1] = std::move(grid[i][target]);
-                            grid[i][target - 1]->setPosition(allocX(target - 1), 0.15, allocZ(i));
+                            grid[i][target - 1]->setCoords(allocX(target - 1), 0.15, allocZ(i));
                             grid[i][target - 1]->setGridCoords(i, target - 1);
                             grid[i][target] = nullptr;
                         }
@@ -227,7 +255,7 @@ namespace Game
                         if (grid[i][target]) // Перевіряємо чи є куб 
                         {
                             grid[i][target + 1] = std::move(grid[i][target]);
-                            grid[i][target + 1]->setPosition(allocX(target + 1), 0.15, allocZ(i));
+                            grid[i][target + 1]->setCoords(allocX(target + 1), 0.15, allocZ(i));
                             grid[i][target + 1]->setGridCoords(i, target + 1);
                             grid[i][target] = nullptr;
                         }
@@ -254,7 +282,7 @@ namespace Game
                         if (grid[i][target]) // Перевіряємо чи є куб 
                         {
                             grid[i][target + 1] = std::move(grid[i][target]);
-                            grid[i][target + 1]->setPosition(allocX(target + 1), 0.15, allocZ(i));
+                            grid[i][target + 1]->setCoords(allocX(target + 1), 0.15, allocZ(i));
                             grid[i][target + 1]->setGridCoords(i, target + 1);
                             grid[i][target] = nullptr;
                         }
@@ -275,7 +303,7 @@ namespace Game
             {
                 if (grid[i][j])
                 {
-                    grid[i][j]->setPosition(allocX(j), 0.15, allocZ(i));
+                    grid[i][j]->setCoords(allocX(j), 0.15, allocZ(i));
                 }
             }
         }
@@ -327,7 +355,7 @@ namespace Game
             int newValue = oldValue * 2;
 
             cube2->setValue(std::to_string(newValue)); // Подвоєння значення куба cube2
-            cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
+            cube2->setCoords(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
             cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
             Score::getInstance().addCurrentScore(newValue);
 
@@ -414,35 +442,6 @@ namespace Game
             std::cout << std::endl;
         }
         std::cout << "-------------------" << std::endl;
-    }
-
-
-    void Board::draw()
-    {
-        glMaterialfv(GL_FRONT, GL_AMBIENT, getAmbiColor());
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, getDiffColor());
-        glMaterialfv(GL_FRONT, GL_SPECULAR, getSpecColor());
-        glMaterialf(GL_FRONT, GL_SHININESS, shininess);
-        // Запис поточної матриці в стек
-        // (збереження вмісту поточної матриці для подальшого використання):
-        glPushMatrix();
-        glTranslatef(getXCenter(), getYCenter(), getZCenter());
-        parallelepiped(getXSize(), getYSize(), getZSize());
-
-        // Малюємо усі куби:
-        for (int i = 0; i < N; i++)
-        {
-            for (int j = 0; j < M; j++)
-            {
-                if (grid[i][j])
-                {
-                    grid[i][j]->draw();
-                }
-            }
-        }
-
-        // Відновлення поточної матриці зі стека:
-        glPopMatrix();
     }
 
 }

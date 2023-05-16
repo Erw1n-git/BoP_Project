@@ -17,39 +17,6 @@ namespace Game
         updateColor();
     }
 
-    void Cube::setGridCoords(int gridX, int gridZ)
-    {
-        this->gridX = gridX;
-        this->gridZ = gridZ;
-    }
-
-    int Cube::getGridX() const
-    {
-        return gridX;      
-    }
-
-    int Cube::getGridZ() const
-    {
-        return gridZ;
-    }
-
-    void Cube::setPosition(float x, float y, float z)
-    {
-        setXCenter(x);
-        setYCenter(y);
-        setZCenter(z);
-    }
-
-    void Cube::setMerged(bool merged)
-    {
-        this->merged = merged;
-    }
-
-    bool Cube::isMerged() const
-    {
-        return merged;
-    }
-
     void Cube::draw()
     {
 
@@ -157,15 +124,16 @@ namespace Game
         updateColor();
     }
 
+    void Cube::setGridCoords(int gridX, int gridZ)
+    {
+        this->gridX = gridX;
+        this->gridZ = gridZ;
+    }
+
     void Cube::setValue(std::string value)
     {
         this->value = value;
         Cube::updateColor();
-    }
-
-    std::string Cube::getValue() const
-    {
-        return value;
     }
 
     void Cube::updateColor()

@@ -39,6 +39,8 @@ namespace Game
             float xSize, float ySize, float zSize,
             float *diffColor, float *ambiColor, float *specColor);
         
+        virtual void draw();
+        
         void createMenu();
         void addRandomCube();
         int moveCubes(int directions);  // Рухає куби у заданому напрямку
@@ -49,7 +51,6 @@ namespace Game
         void resetGrid();
         void printGrid();
 
-        virtual void draw();
     };
 
 }

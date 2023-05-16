@@ -27,13 +27,13 @@ namespace Game {
         public:
             static Score& getInstance();
 
-            unsigned getCurrentScore();
-            unsigned getPreviousScore();
-            unsigned getRecordScore();
+            unsigned getCurrentScore() { return currentScore; }
+            unsigned getPreviousScore() { return previousScore; }
+            unsigned getRecordScore() { return recordScore; }
 
-            void addCurrentScore(unsigned int score);
-            void setCurrentScore(unsigned int currentScore);
-            void setPreviousScore(unsigned int previousScore);
+            void addCurrentScore(unsigned int score) { this->currentScore += score; }
+            void setCurrentScore(unsigned int currentScore) { this->currentScore = currentScore; }
+            void setPreviousScore(unsigned int previousScore) { this->previousScore = previousScore; }
             void setRecordScore(unsigned int recordScore);
 
             int readRecordFromFile();    // Зчитує рекорд з файлу,

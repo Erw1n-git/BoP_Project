@@ -74,36 +74,6 @@ namespace Game {
         return 0;
     }
 
-    unsigned Score::getCurrentScore()
-    {
-        return instance->currentScore;
-    }
-
-    unsigned Score::getPreviousScore()
-    {
-        return instance->previousScore;
-    }
-
-    unsigned Score::getRecordScore()
-    {
-        return instance->recordScore;
-    }
-
-    void Score::addCurrentScore(unsigned int score)
-    {
-        instance->currentScore += score;
-    }
-
-    void Score::setCurrentScore(unsigned int currentScore)
-    {
-        instance->currentScore = currentScore;
-    }
-
-    void Score::setPreviousScore(unsigned int previousScore)
-    {
-        instance->previousScore = previousScore;
-    }
-
     void Score::setRecordScore(unsigned int recordScore)
     {
         instance->recordScore = recordScore;
