@@ -37,6 +37,7 @@ namespace Game
         void   setAmbiColor(float* ambiColor) { this->ambiColor = ambiColor; }
         void   setSpecColor(float* specColor) { this->specColor = specColor; }
         void   setColors(float* diffColor, float* ambiColor, float* specColor);
+        
         virtual void draw() = 0; // ця функція повинна бути перекрита у похідних класах
     };
  

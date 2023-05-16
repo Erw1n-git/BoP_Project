@@ -108,14 +108,12 @@ namespace Game
         glVertex3f(halfWidth, -halfHeight, halfDepth);
         glEnd();
 
-        // !
         glPushMatrix();
         // Додавання тексту на верхню грань куба:
         // Переміщення до верхньої грані куба:
         glTranslatef(0, halfHeight + 0.002, 0);
         // Масштабування тексту:
 
-        // !float textScale = 0.0016 * getYSize();
         // Визначення та встановлення розміру тексту
         float textScale = 0.00042;
         float textWidth = 0.0f;
@@ -123,7 +121,6 @@ namespace Game
         glLineWidth(lineWidth);
         glScalef(textScale, textScale, textScale);
 
-        // ! std::string text = std::to_string(value);
         for (char c : value) {
             textWidth += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
@@ -137,10 +134,7 @@ namespace Game
         glRotatef(-90, 1, 0, 0);
 
         // Виведення кожного символу тексту:
-        //if (textValue <= 4) 
-        //glColor3f(0.47f, 0.44f, 0.4f); // Сірий колір тексту
         glColor3f(1.0, 1.0, 1.0);  // Білий колір тексту
-        // ! glPushMatrix();
         for (char c : value)
         {
             // Переміщення до початкової позиції кожного символу тексту
@@ -152,10 +146,11 @@ namespace Game
             // Збільшення значення зміщення по осі x на ширину символу
             textX += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
-        // TODO: Check whether this glPopMatrix() is needed.
+
+        // Відміняємо трансформації тексту, застосовані до куба.
         glPopMatrix();
 
-        // Відновлення поточної матриці зі стека:
+        // Відновлюємо матрицю до стану перед малюванням куба.
         glPopMatrix();
 
         // Оновлення кольору в залежності від значення тексту(textValue):
@@ -172,48 +167,6 @@ namespace Game
     {
         return value;
     }
-
-    /*void Cube::updateColor()
-    {
-        switch(value)
-        {
-            case 2:
-                setColors(diffCubeColor2, ambiCubeColor2, specCubeColor2);
-                break;
-            case 4:
-                setColors(diffCubeColor4, ambiCubeColor4, specCubeColor4);
-                break;
-            case 8:
-                setColors(diffCubeColor8, ambiCubeColor8, specCubeColor8);
-                break;
-            case 16:
-                setColors(diffCubeColor16, ambiCubeColor16, specCubeColor16);
-                break;
-            case 32:
-                setColors(diffCubeColor32, ambiCubeColor32, specCubeColor32);
-                break;
-            case 64:
-                setColors(diffCubeColor64, ambiCubeColor64, specCubeColor64);
-                break;
-            case 128:
-                setColors(diffCubeColor128, ambiCubeColor128, specCubeColor128);
-                break;
-            case 256:
-                setColors(diffCubeColor256, ambiCubeColor256, specCubeColor256);
-                break;
-            case 512:
-                setColors(diffCubeColor512, ambiCubeColor512, specCubeColor512);
-                break;
-            case 1024:
-                setColors(diffCubeColor1024, ambiCubeColor1024, specCubeColor1024);
-                break;
-            case 2048:
-                setColors(diffCubeColor2048, ambiCubeColor2048, specCubeColor2048);
-                break;
-            default:
-                break;
-        }
-    }*/
 
     void Cube::updateColor()
     {

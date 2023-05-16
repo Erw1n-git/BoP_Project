@@ -8,7 +8,6 @@
 #include <map>
 #include <ctime>
 #include <random>
-#include <cstdlib>
 
 
 #include <GL/glut.h>
@@ -26,34 +25,22 @@
 namespace Game
 {
     // Клас, який відповідає за малювання дошки (поля гри)
-
     class Board : public Shape
     {
 
     private:
-
         void mergeCubes(std::shared_ptr<Cube>& cube, std::shared_ptr<Cube>& cube2, bool* isCube2048);
         bool hasAvailableMoves();
 
     public:
-        /*Board(float xCenter, float yCenter, float zCenter,
-            float xSize, float ySize, float zSize,
-            float *diffColor, float *ambiColor, float *specColor)
-            : Shape(xCenter, yCenter, zCenter,
-                xSize, ySize, zSize,
-                specColor, diffColor, ambiColor) { }*/
+        std::vector<std::vector<std::shared_ptr<Cube>>> grid; // двовимірний масив векторів для розміщения кубів
 
         Board(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
             float *diffColor, float *ambiColor, float *specColor);
         
-        std::vector<std::vector<std::shared_ptr<Cube>>> grid; // двовимірний масив векторів для розміщения кубів
-
-        virtual void draw();
-
         void createMenu();
         void addRandomCube();
-
         int moveCubes(int directions);  // Рухає куби у заданому напрямку
                                         // повертає -1, якщо куби не можуть рухатись
                                         // повертає 0, якщо куби можуть рухатись
@@ -61,10 +48,8 @@ namespace Game
 
         void resetGrid();
         void printGrid();
-        //std::vector<std::vector<std::shared_ptr<Cube>>> getGrid() { return grid; }
-        //void setGrid(std::vector<std::vector<std::shared_ptr<Cube>>> grid) { this->grid = grid;}
 
-    protected:
+        virtual void draw();
     };
 
 }

@@ -30,17 +30,14 @@ namespace Game
         std::string getValue() const;
 
         void setGridCoords(int x, int z);
-        void setMerged(bool merged);
-
         int getGridX() const;
         int getGridZ() const;
+
+        void setMerged(bool merged);
         bool isMerged() const;
 
         void updateColor();
-
         void setPosition(float x, float y, float z);
-
-        void hitTest() const;
     };
 }
 #endif

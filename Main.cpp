@@ -55,7 +55,6 @@ int main(int argc, char* argv[])
     glutInit(&argc, argv);         // ініціалізуємо GLUT
     scene = new Scene(GraphUtils::xStep, GraphUtils::zStep);   // створюємо об'єкт "сцена"
     glutInitWindowSize(900, 900);  // встановлюємFо розміри вікна
-    // ! glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);// ініціалізуємо режими відображення
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);// ініціалізуємо режими відображення
     glEnable(GLUT_MULTISAMPLE);    // включаємо мультисемплінг для більш гладкої
     glutCreateWindow("2048");     // створюємо вікно

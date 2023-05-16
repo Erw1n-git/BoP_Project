@@ -23,8 +23,6 @@ namespace Game
         grid[1][1] = std::make_shared<Cube>(allocX(1), 0.15, allocZ(1), 0.2, 0.2, 0.2, 1, 1, "5x5");
         grid[2][1] = std::make_shared<Cube>(allocX(2), 0.15, allocZ(1), 0.2, 0.2, 0.2, 2, 1, "6x6");
     }
-
-    // !
     
     void Board::addRandomCube()
     {
@@ -56,41 +54,7 @@ namespace Game
             int value = (std::rand() % 2 + 1) * 2;
             grid[row][col] = std::make_shared<Cube>(allocX(col), 0.15, allocZ(row), 0.2, 0.2, 0.2, row, col, std::to_string(value));
         }
-        //grid[row][col] = newCube;
-        //     board->grid[cube_x][cube_y] = new Cube(allocX(j), 0.15, allocZ(i), 0.2, 0.2, 0.2, diffCubeColor1, ambiCubeColor1, specCubeColor1, 1024);
     } 
-
-    /*void Board::addRandomCube()
-    {
-        std::vector<std::pair<int, int>> emptyCells;
-
-        // Find all empty cells and store their indices
-        for (int i = 0; i < N; i++)
-        {
-            for (int j = 0; j < M; j++)
-            {
-                if (!grid[i][j])
-                {
-                    emptyCells.emplace_back(i, j);
-                }
-            }
-        }
-
-        // If there are empty cells, add a new cube to a random empty cell
-        if (!emptyCells.empty())
-        {
-            std::random_device rd;
-            std::mt19937 gen(rd());
-            std::uniform_int_distribution<> dist(0, emptyCells.size() - 1);
-
-            int randomIndex = dist(gen);
-            int randomI = emptyCells[randomIndex].first;
-            int randomJ = emptyCells[randomIndex].second;
-
-            int value = ((rand() % 2) + 1) * 2;
-            grid[randomI][randomJ] = std::make_shared<Cube>(allocX(randomJ), 0.15, allocZ(randomI), 0.2, 0.2, 0.2, randomJ, randomI, value);
-        }
-    }*/
 
     // Рухає куби у заданому напрямку
     // повертає -1, якщо куби не можуть рухатись
@@ -121,7 +85,6 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target--;
-                        //moved = true;
                     }
                 }
 
@@ -132,7 +95,6 @@ namespace Game
                     {
                         mergeCubes(grid[i + 1][j], grid[i][j], &isCube2048);
                         grid[i + 1][j] = nullptr;
-                        //moved = true;
                     }
                 }
 
@@ -150,7 +112,6 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target--;
-                        //moved = true;
                     }
                 }
             }
@@ -173,7 +134,6 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target++;
-                        //moved = true;
                     }
                 }
 
@@ -184,7 +144,6 @@ namespace Game
                     {
                         mergeCubes(grid[i - 1][j], grid[i][j], &isCube2048);
                         grid[i - 1][j] = nullptr;
-                        //moved = true;
                     }
                 }
 
@@ -202,7 +161,6 @@ namespace Game
                             grid[target][j] = nullptr;
                         }
                         target++;
-                        //moved = true;
                     }
                 }
             }
@@ -225,7 +183,6 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target--;
-                        //moved = true;
                     }
                 }
 
@@ -236,7 +193,6 @@ namespace Game
                     {
                         mergeCubes(grid[i][j + 1], grid[i][j], &isCube2048);
                         grid[i][j + 1] = nullptr;
-                        //moved = true;
                     }
                 }
 
@@ -254,7 +210,6 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target--;
-                        //moved = true;
                     }
                 }
             }
@@ -277,7 +232,6 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target++;
-                        //moved = true;
                     }
                 }
 
@@ -288,7 +242,6 @@ namespace Game
                     {
                         mergeCubes(grid[i][j - 1], grid[i][j], &isCube2048);
                         grid[i][j - 1] = nullptr;
-                        //moved = true;
                     }
                 }
 
@@ -306,7 +259,6 @@ namespace Game
                             grid[i][target] = nullptr;
                         }
                         target++;
-                        //moved = true;
                     }
                 }
             }
@@ -344,18 +296,10 @@ namespace Game
 
         if (!hasAvailableMoves())
             return -1;
-
-        // ! 
-        /*if (!moved)
-        {
-            std::cout << "Not moved" << std::endl;
-            return -1;
-        }*/
         
         if (isCube2048)
             return 1;
 
-        //printGrid();
         return 0;
     }
 
@@ -375,7 +319,6 @@ namespace Game
         }
     }
 
-    // !
     void Board::mergeCubes(std::shared_ptr<Cube>& cube1, std::shared_ptr<Cube>& cube2, bool* isValue2048)
     {
         try
@@ -385,7 +328,6 @@ namespace Game
 
             cube2->setValue(std::to_string(newValue)); // Подвоєння значення куба cube2
             cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
-            //std::cout << "Cube2 pos X: " << cube2->getGridX() << " Z: " << cube2->getGridZ() << std::endl;
             cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
             Score::addCurrentScore(newValue);
 
