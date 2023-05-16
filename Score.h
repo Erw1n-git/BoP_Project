@@ -27,21 +27,19 @@ namespace Game {
         public:
             static Score& getInstance();
 
-            // TODO: Check whether these 'static' are needed
+            unsigned getCurrentScore();
+            unsigned getPreviousScore();
+            unsigned getRecordScore();
 
-            static unsigned getCurrentScore();
-            static unsigned getPreviousScore();
-            static unsigned getRecordScore();
+            void addCurrentScore(unsigned int score);
+            void setCurrentScore(unsigned int currentScore);
+            void setPreviousScore(unsigned int previousScore);
+            void setRecordScore(unsigned int recordScore);
 
-            static void addCurrentScore(unsigned int score);
-            static void setCurrentScore(unsigned int currentScore);
-            static void setPreviousScore(unsigned int previousScore);
-            static void setRecordScore(unsigned int recordScore);
-
-            static int readRecordFromFile();    // Зчитує рекорд з файлу,
+            int readRecordFromFile();    // Зчитує рекорд з файлу,
                                                 // повертає від'ємне значення, якщо виникла помилка
             
-            static int writeRecordToFile();     // Записує новий рекорд до файлу,
+            int writeRecordToFile();     // Записує новий рекорд до файлу,
                                                 // повертає від'ємне значення, якщо виникла помилка
 
     };

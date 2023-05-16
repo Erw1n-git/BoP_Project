@@ -329,7 +329,7 @@ namespace Game
             cube2->setValue(std::to_string(newValue)); // Подвоєння значення куба cube2
             cube2->setPosition(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
             cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
-            Score::addCurrentScore(newValue);
+            Score::getInstance().addCurrentScore(newValue);
 
             float originalScale = 0.2f;
             float scaleFactor = 1.15f;
