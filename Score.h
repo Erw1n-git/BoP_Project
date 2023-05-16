@@ -27,6 +27,7 @@ namespace Game {
         public:
             static Score& getInstance();
 
+            // Функції доступу до полів рахунків
             unsigned getCurrentScore() { return currentScore; }
             unsigned getPreviousScore() { return previousScore; }
             unsigned getRecordScore() { return recordScore; }
@@ -36,11 +37,11 @@ namespace Game {
             void setPreviousScore(unsigned int previousScore) { this->previousScore = previousScore; }
             void setRecordScore(unsigned int recordScore);
 
-            int readRecordFromFile();    // Зчитує рекорд з файлу,
-                                                // повертає від'ємне значення, якщо виникла помилка
+            int readRecordFromFile();   // Зчитує рекорд з файлу,
+                                        // повертає від'ємне значення, якщо виникла помилка
             
-            int writeRecordToFile();     // Записує новий рекорд до файлу,
-                                                // повертає від'ємне значення, якщо виникла помилка
+            int writeRecordToFile();    // Записує новий рекорд до файлу,
+                                        // повертає від'ємне значення, якщо виникла помилка
 
     };
     

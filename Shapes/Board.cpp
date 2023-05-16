@@ -24,12 +24,11 @@ namespace Game
         glMaterialfv(GL_FRONT, GL_SPECULAR, getSpecColor());
         glMaterialf(GL_FRONT, GL_SHININESS, shininess);
         // Запис поточної матриці в стек
-        // (збереження вмісту поточної матриці для подальшого використання):
         glPushMatrix();
         glTranslatef(getXCenter(), getYCenter(), getZCenter());
         parallelepiped(getXSize(), getYSize(), getZSize());
 
-        // Малюємо усі куби:
+        // Малювання усіх кубів
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < M; j++)
@@ -41,10 +40,11 @@ namespace Game
             }
         }
 
-        // Відновлення поточної матриці зі стека:
+        // Відновлення поточної матриці зі стека
         glPopMatrix();
     }
 
+    // функція створення меню вибору розмірів поля
     void Board::createMenu()
     {
         grid[0][1] = std::make_shared<Cube>(allocX(0), 0.15, allocZ(1), 0.2, 0.2, 0.2, 0, 1, "4x4");
@@ -52,11 +52,12 @@ namespace Game
         grid[2][1] = std::make_shared<Cube>(allocX(2), 0.15, allocZ(1), 0.2, 0.2, 0.2, 2, 1, "6x6");
     }
     
+    // створення куба з випадковим значенням у випадковому місці
     void Board::addRandomCube()
     {
         std::vector<std::pair<int, int>> emptyPositions;
 
-        // Шукаємо пусті позиції у сітці кубів
+        // Пошук пустих позицій у сітці кубів
         for (int i = 0; i < N; ++i)
         {
             for (int j = 0; j < M; ++j)
@@ -68,15 +69,15 @@ namespace Game
             }
         }
 
-        // Завершуємо виконання функції, якщо вільних місць немає
+        // Завершення виконання функції, якщо вільних місць немає
         if(emptyPositions.empty()) return;
 
-        // Створюємо два куба з випадковим значення value(2 або 4)
-        // та розташовуємо їх у випадкових позиціях
+        // Створення два куба з випадковим значення value(2 або 4)
         int randIndex = std::rand() % emptyPositions.size();
         int row = emptyPositions[randIndex].first;
         int col = emptyPositions[randIndex].second;
 
+        // Розташування куба у випадковому місці на полі
         if (!grid[row][col])
         {
             int value = (std::rand() % 2 + 1) * 2;
@@ -92,20 +93,20 @@ namespace Game
     {
         bool isCube2048 = false;
         
-        // Двигаємо куби в залежності від змінной direction
+        // Рух кубів в залежності від змінной direction
         switch (direction)
         {
         case MOVE_CUBES_UP:
             // Проходження по стовпчиках зліва направо
             for (int j = 0; j < M; j++)
             {
-                // Рухаємо куби вгору
+                // Рух кубів вгору
                 for (int i = 1; i < N; i++)
                 {
                     int target = i;
                     while (target > 0 && !grid[target - 1][j])
                     {
-                        if (grid[target][j]) // Перевіряємо чи є куб 
+                        if (grid[target][j])
                         {
                             grid[target - 1][j] = std::move(grid[target][j]);
                             grid[target - 1][j]->setCoords(allocX(j), 0.15, allocZ(target - 1));
@@ -116,7 +117,7 @@ namespace Game
                     }
                 }
 
-                // Об'єднуємо куби з однаковими значеннями
+                // Об'єднання кубів з однаковими значеннями
                 for (int i = 0; i < N - 1; i++)
                 {
                     if (grid[i][j] && grid[i + 1][j] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i + 1][j]->getValue())
@@ -126,13 +127,13 @@ namespace Game
                     }
                 }
 
-                // Рухаємо куби вгору знову для заповнення пустих клітинок після злиття
+                // Рух кубів вгору знову для заповнення пустих клітинок після злиття
                 for (int i = 1; i < N; i++)
                 {
                     int target = i;
                     while (target > 0 && !grid[target - 1][j])
                     {
-                        if (grid[target][j]) // Перевіряємо чи є куб 
+                        if (grid[target][j])
                         {
                             grid[target - 1][j] = std::move(grid[target][j]);
                             grid[target - 1][j]->setCoords(allocX(j), 0.15, allocZ(target - 1));
@@ -148,13 +149,13 @@ namespace Game
             // Проходження по стовпчиках зліва направо
             for (int j = 0; j < M; j++)
             {
-                // Рухаємо куби вниз
+                // Рух кубів вниз
                 for (int i = N - 2; i >= 0; i--)
                 {
                     int target = i;
                     while (target < N - 1 && !grid[target + 1][j])
                     {
-                        if (grid[target][j]) // Перевіряємо чи є куб 
+                        if (grid[target][j])
                         {
                             grid[target + 1][j] = std::move(grid[target][j]);
                             grid[target + 1][j]->setCoords(allocX(j), 0.15, allocZ(target + 1));
@@ -165,7 +166,7 @@ namespace Game
                     }
                 }
 
-                // Об'єднуємо куби з однаковими значеннями
+                // Об'єднання кубів з однаковими значеннями
                 for (int i = N - 1; i > 0; i--)
                 {
                     if (grid[i][j] && grid[i - 1][j] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i - 1][j]->getValue())
@@ -175,13 +176,13 @@ namespace Game
                     }
                 }
 
-                // Рухаємо куби вниз знову для заповнення пустих клітинок після злиття
+                // Рух кубів вниз знову для заповнення пустих клітинок після злиття
                 for (int i = N - 2; i >= 0; i--)
                 {
                     int target = i;
                     while (target < N - 1 && !grid[target + 1][j])
                     {
-                        if (grid[target][j]) // Перевіряємо чи є куб 
+                        if (grid[target][j])
                         {
                             grid[target + 1][j] = std::move(grid[target][j]);
                             grid[target + 1][j]->setCoords(allocX(j), 0.15, allocZ(target + 1));
@@ -197,13 +198,13 @@ namespace Game
             // Проходження по рядках зверху вниз
             for (int i = 0; i < N; i++)
             {
-                // Рухаємо куби вліво
+                // Рух кубів вліво
                 for (int j = 1; j < M; j++)
                 {
                     int target = j;
                     while (target > 0 && !grid[i][target - 1])
                     {
-                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        if (grid[i][target])
                         {
                             grid[i][target - 1] = std::move(grid[i][target]);
                             grid[i][target - 1]->setCoords(allocX(target - 1), 0.15, allocZ(i));
@@ -214,7 +215,7 @@ namespace Game
                     }
                 }
 
-                // Об'єднуємо куби з однаковими значеннями
+                // Об'єднання кубів з однаковими значеннями
                 for (int j = 0; j < M - 1; j++)
                 {
                     if (grid[i][j] && grid[i][j + 1] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i][j + 1]->getValue())
@@ -224,13 +225,13 @@ namespace Game
                     }
                 }
 
-                // Рухаємо куби вліво знову для заповнення пустих клітинок після злиття
+                // Рух кубів вліво знову для заповнення пустих клітинок після злиття
                 for (int j = 1; j < M; j++)
                 {
                     int target = j;
                     while (target > 0 && !grid[i][target - 1])
                     {
-                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        if (grid[i][target])
                         {
                             grid[i][target - 1] = std::move(grid[i][target]);
                             grid[i][target - 1]->setCoords(allocX(target - 1), 0.15, allocZ(i));
@@ -246,13 +247,13 @@ namespace Game
             // Проходження по рядках зверху вниз
             for (int i = 0; i < N; i++)
             {
-                // Рухаємо куби вправо
+                // Рух кубів вправо
                 for (int j = M - 2; j >= 0; j--)
                 {
                     int target = j;
                     while (target < M - 1 && !grid[i][target + 1])
                     {
-                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        if (grid[i][target])
                         {
                             grid[i][target + 1] = std::move(grid[i][target]);
                             grid[i][target + 1]->setCoords(allocX(target + 1), 0.15, allocZ(i));
@@ -263,7 +264,7 @@ namespace Game
                     }
                 }
 
-                // Об'єднуємо куби з однаковими значеннями
+                // Об'єднання кубів з однаковими значеннями
                 for (int j = M - 1; j > 0; j--)
                 {
                     if (grid[i][j] && grid[i][j - 1] && !grid[i][j]->isMerged() && grid[i][j]->getValue() == grid[i][j - 1]->getValue())
@@ -273,13 +274,13 @@ namespace Game
                     }
                 }
 
-                // Рухаємо куби вправо знову для заповнення пустих клітинок після злиття
+                // Рух кубів вправо знову для заповнення пустих клітинок після злиття
                 for (int j = M - 2; j >= 0; j--)
                 {
                     int target = j;
                     while (target < M - 1 && !grid[i][target + 1])
                     {
-                        if (grid[i][target]) // Перевіряємо чи є куб 
+                        if (grid[i][target])
                         {
                             grid[i][target + 1] = std::move(grid[i][target]);
                             grid[i][target + 1]->setCoords(allocX(target + 1), 0.15, allocZ(i));
@@ -296,7 +297,7 @@ namespace Game
             break;
         }
 
-        // Оновлюємо позиції кожного куба на полі
+        // Оновлення позиції кожного куба на полі
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < M; j++)
@@ -322,9 +323,11 @@ namespace Game
             }
         }
 
+        // Перевірка наявності вільних ходів 
         if (!hasAvailableMoves())
             return -1;
         
+        // Перевірка наявності куба зі значенням 2048
         if (isCube2048)
             return 1;
 
@@ -337,13 +340,15 @@ namespace Game
     //Глобальна змінна для зберігання унікального ідентифікатора лямбда-функцій
     int g_timerFunctionId = 0;
 
-
+    // Функція зворотнього виклику таймера.
+    // Виконує лямбда-функцію, пов'язану з ідентифікатором таймера.
+    // Видаляє лямбда-функцію з карти після виконання.
     void timerCallback(int timerId)
     {
         if (g_timerFunctions.count(timerId) > 0)
         {
             g_timerFunctions[timerId](timerId);
-            g_timerFunctions.erase(timerId); // Видалити лямбда-функцію після виконання
+            g_timerFunctions.erase(timerId);
         }
     }
 
@@ -351,14 +356,18 @@ namespace Game
     {
         try
         {
+            // Подвоєння значення куба cube2
             int oldValue = std::stoi(cube2->getValue());
             int newValue = oldValue * 2;
 
-            cube2->setValue(std::to_string(newValue)); // Подвоєння значення куба cube2
-            cube2->setCoords(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); // Оновлення позиції куба2 відповідно до позиції куба1
-            cube2->setMerged(true); // Встановлення статусу злиття куба cube2 в true
+            cube2->setValue(std::to_string(newValue)); 
+
+            // Оновлення значень другого куба
+            cube2->setCoords(cube1->getXCenter(), cube1->getYCenter(), cube1->getZCenter()); 
+            cube2->setMerged(true);
             Score::getInstance().addCurrentScore(newValue);
 
+            // Анімація збільшення розмірів другого куба на короткий проміжок часу
             float originalScale = 0.2f;
             float scaleFactor = 1.15f;
             cube2->setSize(originalScale * scaleFactor, originalScale * scaleFactor, originalScale * scaleFactor);
@@ -369,8 +378,10 @@ namespace Game
             };
             glutTimerFunc(175, timerCallback, currentTimerId);
 
-            cube1.reset(); // Видалення cube1 з поля гри
+            // Видалення cube1 з поля гри
+            cube1.reset();
 
+            // Встановлення значення true, якщо нове значення куба = 2048
             if (cube2->getValue() == "2048")
             {
                 *isValue2048 = true;
@@ -389,20 +400,20 @@ namespace Game
         {
             for (int j = 0; j < M; j++)
             {
-                // Перевіряємо наявність пустих місць у сітці дошки
+                // Перевірка наявності пустих місць у сітці дошки
                 if (!grid[i][j]) 
                 {
                     return true;
                 }
 
-                // Перевіряємо можливість "з'єднання" кубів 
+                // Перевірка можливості "з'єднання" кубів 
                 // з однаковими значеннями по горизонталі
                 if (j < M - 1 && grid[i][j] && grid[i][j + 1] && grid[i][j]->getValue() == grid[i][j + 1]->getValue())
                 {
                     return true;
                 }
 
-                // Перевіряємо можливість "з'єднання" кубів 
+                // Перевірка можливості "з'єднання" кубів 
                 // з однаковими значеннями по вертикалі
                 if (i < N - 1 && grid[i][j] && grid[i + 1][j] && grid[i][j]->getValue() == grid[i + 1][j]->getValue())
                 {
@@ -413,6 +424,7 @@ namespace Game
         return false;
     }
 
+    // Очищення поля від кубів
     void Board::resetGrid()
     {
         for (size_t i = 0; i < grid.size(); ++i) 
@@ -424,6 +436,7 @@ namespace Game
         }
     }
 
+    // Вивід сітки положень кубів у консоль
     void Board::printGrid()
     {
         for (int i = 0; i < N; i++)

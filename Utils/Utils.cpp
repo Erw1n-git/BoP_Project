@@ -93,24 +93,16 @@ namespace GraphUtils
     float ambiViolet[] = { 0.2f, 0.2f, 0.2f };
     float specViolet[] = { 0.8f, 0.8f, 0.8f };
 
-    // Перерахування індексу масиву fields в координату x
+    // Перерахування індексу масиву Board::grid в координату x
     float allocX(int i) 
     { 
         return xStep * i - (N - 1) * xStep / 2; 
     }
 
-    // Перерахування індексу масиву fields в координату z
+    // Перерахування індексу масиву Board::grid в координату z
     float allocZ(int i) 
     { 
         return zStep * i - (M - 1) * zStep / 2; 
-    }
-
-    // Випадкове "тасування" одновимірного масиву цілих чисел
-    void shuffle(int *a, int size)
-    {
-        // Ініціалізація генератору випадкових значень поточним часом:
-        srand((unsigned)time(0));
-        std::random_shuffle(a, a + size); // алгоритм стандартної бібліотеки шаблонів
     }
 
     // Малювання паралелепіпеда
@@ -160,7 +152,7 @@ namespace GraphUtils
     // Відображення рядка тексту вказаним шрифтом у вказаній позиції
     void drawString(void *font, const char* text, float x, float y)
     {
-        if (!text) // нульовий указівник
+        if (!text)
         {
             return;
         }

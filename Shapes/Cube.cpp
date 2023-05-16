@@ -13,7 +13,6 @@ namespace Game
         this->gridX = gridX;
         this->gridZ = gridZ;
 
-        // Оновлення кольору в залежності від значення тексту(Value):
         updateColor();
     }
 
@@ -21,13 +20,12 @@ namespace Game
     {
 
         // Визначення властивостей матеріалу:
-        // glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, getDiffColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getAmbiColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, getDiffColor());
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, getSpecColor());
         glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, GraphUtils::shininess);
+
         // Запис поточної матриці в стек
-        // (збереження вмісту поточної матриці для подальшого використання):
         glPushMatrix();
         glTranslatef(getXCenter(), getYCenter(), getZCenter());
 
@@ -76,10 +74,8 @@ namespace Game
         glEnd();
 
         glPushMatrix();
-        // Додавання тексту на верхню грань куба:
-        // Переміщення до верхньої грані куба:
+
         glTranslatef(0, halfHeight + 0.002, 0);
-        // Масштабування тексту:
 
         // Визначення та встановлення розміру тексту
         float textScale = 0.00042;
@@ -92,50 +88,50 @@ namespace Game
             textWidth += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
 
-        // Визначення початкової позиції тексту:
+        // Визначення початкової позиції тексту
         float textX = -textWidth / 0.002f;
         float textY = -45.0;
         float textZ = 0.0;
 
-        // Ротація тексту, щоб він лежав плоско на верхній грані куба:
+        // Ротація тексту, щоб він лежав плоско на верхній грані куба
         glRotatef(-90, 1, 0, 0);
 
-        // Виведення кожного символу тексту:
-        glColor3f(1.0, 1.0, 1.0);  // Білий колір тексту
+        glColor3f(1.0, 1.0, 1.0); 
+
+        // Виведення кожного символу тексту
         for (char c : value)
         {
-            // Переміщення до початкової позиції кожного символу тексту
             glTranslatef(textX, textY, textZ);
-            // Виведення символу на екран за допомогою GLUT
             glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN, c);
-            // Повернення до початкової позиції, щоб відобразити наступний символ
             glTranslatef(-textX, -textY, -textZ);
-            // Збільшення значення зміщення по осі x на ширину символу
             textX += glutStrokeWidth(GLUT_STROKE_MONO_ROMAN, c) / 1000.0;
         }
 
-        // Відміняємо трансформації тексту, застосовані до куба.
+        // Відновлення трансформації тексту, застосовані до куба.
         glPopMatrix();
 
-        // Відновлюємо матрицю до стану перед малюванням куба.
+        // Відновлення матриці до стану перед малюванням куба.
         glPopMatrix();
 
         // Оновлення кольору в залежності від значення тексту(textValue):
         updateColor();
     }
 
+    // Встановлення значень положення у сітці 'grid'
     void Cube::setGridCoords(int gridX, int gridZ)
     {
         this->gridX = gridX;
         this->gridZ = gridZ;
     }
 
+    // Встановлення значення кубу
     void Cube::setValue(std::string value)
     {
         this->value = value;
         Cube::updateColor();
     }
 
+    // Оновлення кольору в залежності від значення 'value'
     void Cube::updateColor()
     {
         if (value == "2") {

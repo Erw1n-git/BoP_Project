@@ -29,11 +29,15 @@ namespace Game
     {
 
     private:
+        // функція з'єднання двох кубів
         void mergeCubes(std::shared_ptr<Cube>& cube, std::shared_ptr<Cube>& cube2, bool* isCube2048);
+
+        // функція перевірки наявності можливих рухів кубів
         bool hasAvailableMoves();
 
     public:
-        std::vector<std::vector<std::shared_ptr<Cube>>> grid; // двовимірний масив векторів для розміщения кубів
+        // двовимірний масив векторів для розміщения кубів
+        std::vector<std::vector<std::shared_ptr<Cube>>> grid;
 
         Board(float xCenter, float yCenter, float zCenter,
             float xSize, float ySize, float zSize,
@@ -48,7 +52,10 @@ namespace Game
                                         // повертає 0, якщо куби можуть рухатись
                                         // повертає 1, якщо на полі є куб зі значенням 2048
 
+        // функція очищенная масиву кубів
         void resetGrid();
+
+        // функція виводу сітки положень кубів у консоль
         void printGrid();
 
     };

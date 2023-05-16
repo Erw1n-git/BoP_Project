@@ -15,7 +15,8 @@ namespace Game
               float xSize, float ySize, float zSize,
               float *diffColor, float *ambiColor, float *specColor);
         virtual ~Shape() { } 
-        // Функції доступу:
+
+        // Функції доступу
         float  getXCenter() const { return xCenter; }
         float  getYCenter() const { return yCenter; }
         float  getZCenter() const { return zCenter; }
@@ -38,7 +39,7 @@ namespace Game
         void   setSpecColor(float* specColor) { this->specColor = specColor; }
         void   setColors(float* diffColor, float* ambiColor, float* specColor);
         
-        virtual void draw() = 0; // ця функція повинна бути перекрита у похідних класах
+        virtual void draw() = 0;
     };
  
 }

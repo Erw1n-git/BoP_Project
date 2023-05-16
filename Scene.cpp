@@ -3,7 +3,7 @@
 namespace Game
 {
 
-    // Параметри конструктора - відстань між окремими кубами:
+    // Параметри конструктора - відстань між окремими кубами
     Scene::Scene(float xStep, float zStep)
     {
         this->xStep = xStep;
@@ -14,13 +14,15 @@ namespace Game
         initialize();
     }
 
-    // Ініціалізація даних (виконується спочатку, а потім з кожним оновленням гри):
+    // Ініціалізація даних (виконується спочатку, а потім з кожним оновленням гри)
     void Scene::initialize()
     {
         angleX = 2;
         angleY = 77;
         time = 0;
 
+        // Створення поля гри, в залежності від стану гри
+        // Якщо 2, то створюємо меню вибіру розмірів поля
         if (gameState != 2)
         {
             distZ = -1.7;
@@ -53,7 +55,7 @@ namespace Game
         }
     }
 
-    // Пошук стрижня, найближчого до позиції курсору миші:
+    // Пошук куба, найближчого до позиції курсору миші
     bool Scene::findNearest(int x, int y, int &x1, int &z1)
     {
         int viewport[4];
@@ -71,21 +73,21 @@ namespace Game
                     double wy = board->grid[i][j]->getYCenter();
                     double wz = board->grid[i][j]->getZCenter();
 
-                    // Заповнюємо масив viewport поточною областю перегляду:
+                    // Заповнення масиву viewport поточною областю перегляду
                     glGetIntegerv(GL_VIEWPORT, viewport);
 
-                    // Заповнюємо масиви поточними матрицями:
+                    // Заповнення масиву поточними матрицями
                     glGetDoublev(GL_MODELVIEW_MATRIX, mvMatrix);
                     glGetDoublev(GL_PROJECTION_MATRIX, projMatrix);
 
-                    // Світові x, y, z координати, що обертаються:
+                    // Світові x, y, z координати, що обертаються
                     double dx, dy, dz;
 
-                    // Отримуємо координати точки, на яку спроектовано поточний стрижень:
+                    // Отримання координат точки, на яку спроектовано поточний куб
                     gluProject(wx, wy, wz, mvMatrix, projMatrix, viewport, &dx, &dy, &dz);
-                    dy = viewport[3] - dy - 1;                            // dy необхідно перерахувати
-                    double d = (x - dx) * (x - dx) + (y - dy) * (y - dy); // квадрат відстані
-                    if (d < minDist)                                      // знайшли ближчий стрижень
+                    dy = viewport[3] - dy - 1;
+                    double d = (x - dx) * (x - dx) + (y - dy) * (y - dy);
+                    if (d < minDist)
                     {
                         minDist = d;
                         iMin = i;
@@ -94,7 +96,9 @@ namespace Game
                 }
             }
         }
-        if (minDist < 7000) // знайшли найближчий стрижень
+
+        // знайдено найближчий куб
+        if (minDist < 7000)
         {
             x1 = jMin;
             z1 = iMin;
@@ -118,6 +122,7 @@ namespace Game
         gameState = 1;
     }
 
+    // Вибір елементу розмірів поля в меню
     void Scene::on_menu(int selection_id)
     {
         switch (selection_id)
@@ -144,13 +149,14 @@ namespace Game
 
     // Оброблювач події, пов'язаної з перемалюванням вікна
     void Scene::on_paint()
-    {     
-        char textInfo[128];          // Масив символів першої строки
-        char textCurrentScore[128];  // Масив символів строки поточного рахунку
-        char textPreviousScore[128]; // Масив символів строки рахунку минулої гри
-        char textRecordScore[128];   // Масив символів строки рекордного рахунку
+    {
+        // Масиви для зберігання головної інформації гри та рахунків
+        char textInfo[128];
+        char textCurrentScore[128];
+        char textPreviousScore[128];
+        char textRecordScore[128];
 
-        // Заповнення масиву символів відповідно до стану гри:
+        // Заповнення масиву символів відповідно до стану гри
         switch (gameState)
         {
         case -1:
@@ -167,6 +173,7 @@ namespace Game
             break;
         }
 
+        // Заповнення масивів символів рахунків, якщо гравець знаходиться не у меню
         if (gameState != 2)
         {
             sprintf(textCurrentScore, "Current score: %d", Score::getInstance().getCurrentScore());
@@ -174,21 +181,20 @@ namespace Game
             sprintf(textRecordScore, "Record score: %d", Score::getInstance().getRecordScore());
         }
 
-        // Встановлюємо область перегляду таку, щоб вона вміщувала все вікно:
         glViewport(0, 0, width, height);
 
-        // Ініціалізуємо параметри матеріалів і джерела світла:
-        float lightAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};  // колір фонового освітлення
-        float lightDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};  // колір дифузного освітлення
-        float lightSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f}; // колір дзеркального відображення
-        float lightPosition[] = {-1.0f, 2.0f, 1.9f, 0.0f}; // розташування джерела світла
+        float lightAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+        float lightDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        float lightSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+        float lightPosition[] = {-1.0f, 2.0f, 1.9f, 0.0f};
 
-        // Встановлюємо параметри джерела світла:
+        // Встановлення параметрів джерела світла
         glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
         glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
         glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
         glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
+        // Встановлення коліру заднього фону в залежності від стану гри
         switch (gameState)
         {
         case -1:
@@ -205,35 +211,36 @@ namespace Game
             break;
         }
 
-        // Очищуємо буфери:
+        // Очищення буфери
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glPushMatrix();
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 
-        // Для відображення тексту, краще використовувати ортографічну проекцію:
+        // Відображення тексту з використанням ортографічної проекції
         glOrtho(0, 1, 0, 1, -1, 1);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
 
+        // Встановлення коліру тексту для першої строки інформації на екрані
         switch (gameState)
         {
         case -1:
-            glColor3d(0.91, 0.35, 0.21); // Червоний текст
+            glColor3d(0.91, 0.35, 0.21);
             break;
         case 0:
-            glColor3f(0.28, 0.25, 0.28); // Чорний текст
+            glColor3f(0.28, 0.25, 0.28);
             break;
         case 1:
-            glColor3d(0.004, 0.58, 0.05); // Зелений текст
+            glColor3d(0.004, 0.58, 0.05);
             break;
         }
 
+        // Встановлення чорного коліру тексту для строк рахунку
         if (gameState != 2)
         {
             drawString(GLUT_BITMAP_HELVETICA_18, textInfo, 0.01, 0.965);
 
-            // Встановлюємо чорний текст для строк рахунку
             glColor3f(0.28, 0.25, 0.28);
 
             drawString(GLUT_BITMAP_HELVETICA_18, textCurrentScore, 0.01, 0.915);
@@ -242,41 +249,37 @@ namespace Game
         }
         glPopMatrix();
 
-        // Включаємо режим роботи з матрицею проекцій:
+        // Включення режиму роботи з матрицею проекцій:
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 
-        // Задаємо усічений конус видимості в лівосторонній системі координат,
-        // 60 - кут видимості в градусах по осі у,
-        // width/height - кут видимості уздовж осі x,
-        // 1 и 100 - відстань від спостерігача до площин відсікання по глибині:
+        // Задання усіченого конуса видимості в лівосторонній системі координат
         gluPerspective(60, width / height, 1, 100);
 
-        // Включаємо режим роботи з видовою матрицею:
+        // Включення режим роботи з видовою матрицею
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glTranslatef(0, 0, distZ); // камера з початку координат зсувається на distZ,
+        glTranslatef(0, 0, distZ);
 
-        glRotatef(angleX, 0.0f, 1.0f, 0.0f); // потім обертається по осі Oy
-        glRotatef(angleY, 1.0f, 0.0f, 0.0f); // потім обертається по осі Ox
-        glEnable(GL_DEPTH_TEST);             // включаємо буфер глибини (для відсікання невидимих частин зображення)
-
-        // Включаємо режим для установки освітлення:
+        glRotatef(angleX, 0.0f, 1.0f, 0.0f);
+        glRotatef(angleY, 1.0f, 0.0f, 0.0f);
+        
+        // Включення буферу глибини, режиму установки освітлення 
+        // та додавання джерела світла №0
+        glEnable(GL_DEPTH_TEST);
         glEnable(GL_LIGHTING);
-
-        // Додаємо джерело світла № 0 (їх може бути до 8), зараз воно світить з "очей":
         glEnable(GL_LIGHT0);
 
         // Малюємо дошку з усіма кубами
         board->draw();
 
-        // Вимикаємо все, що включили:
+        // Вимикання усього, що включили:
         glDisable(GL_LIGHT0);
         glDisable(GL_LIGHTING);
         glDisable(GL_DEPTH_TEST);
+
         glFlush();
-        // показуємо вікно:
-        glutSwapBuffers(); // перемикання буферів
+        glutSwapBuffers();
     }
 
     // Оброблювач події, пов'язаної зі зміною розмірів вікна
@@ -291,11 +294,13 @@ namespace Game
     // Оброблювач подій, пов'язаних з натисканням кнопок миші
     void Scene::on_mouse(int button, int state, int x, int y)
     {
-        // Зберігаємо поточні координати миші:
+        // Зберігання поточних координат миші
         mouseX = x;
         mouseY = y;
 
-        this->button = button; // зберігаємо інформацію про кнопки
+        this->button = button;
+
+        // Виклик функції on_menu в залежності від найближчого куба
         if (gameState == 2)
         {
             if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
@@ -326,7 +331,8 @@ namespace Game
     {
         switch (button)
         {
-        case 2: // права кнопка - обертання сцени
+        // обертання сцени правою кнопкою миші
+        case 2: 
             if (gameState == 2)
                 return;
             angleX += x - mouseX;
@@ -342,21 +348,24 @@ namespace Game
     {
         switch (key)
         {
-        case GLUT_KEY_UP: // наближення
+        // наближення камери
+        case GLUT_KEY_UP: 
             if (distZ > -1.5)
             {
                 break;
             }
             distZ += 0.1;
             break;
-        case GLUT_KEY_DOWN: // віддалення
+        // віддалення камери 
+        case GLUT_KEY_DOWN:
             if (distZ < -2.3)
             {
                 break;
             }
             distZ -= 0.1;
             break;
-        case GLUT_KEY_F2: // нова гра
+        // нова гра
+        case GLUT_KEY_F2:
             gameState = 0;
             initialize();
             break;
@@ -369,7 +378,7 @@ namespace Game
         int res;
         switch (key)
         {
-        // Рухаємо куби догори при натисканні клавиш 'W' або 'w'
+        // Рух кубів догори при натисканні клавиш 'W' або 'w'
         case 'W':
         case 'w':
             if (gameState != 0) break;
@@ -384,7 +393,7 @@ namespace Game
                 on_win();
             }
             break;
-        // Рухаємо куби донизу при натисканні клавиш 'S' або 's'
+        // Рух кубів донизу при натисканні клавиш 'S' або 's'
         case 'S':
         case 's':
             if (gameState != 0) break;
@@ -399,7 +408,7 @@ namespace Game
                 on_win();
             }
             break;
-        // Рухаємо куби вліво при натисканні клавиш 'A' або 'a'
+        // Рух кубів вліво при натисканні клавиш 'A' або 'a'
         case 'A':
         case 'a':
             if (gameState != 0) break;
@@ -414,7 +423,7 @@ namespace Game
                 on_win();
             }
             break;
-        // Рухаємо куби вправо при натисканні клавиш 'D' або 'd'
+        // Рух кубів вправо при натисканні клавиш 'D' або 'd'
         case 'D':
         case 'd':
             if (gameState != 0) break;
@@ -429,6 +438,7 @@ namespace Game
                 on_win();
             }
             break;
+        // Завершення гри при натисканні 'ESC'
         case 27:
             exit(0);
             break;
@@ -438,21 +448,23 @@ namespace Game
         }
     }
 
-    int tick = 0; // лічильник, значення якого змінюється кожні 25 мс
+    int tick = 0; // лічильник, значення якого змінюється кожні 10 мс
 
     // Оброблювач події від таймера
     void Scene::on_timer(int value)
     {
         tick++;
-        if (tick >= 40) // нарахували наступну секунду
+        // наступна секунда
+        if (tick >= 40)
         {
             if (gameState == 0)
             {
                 time++;
             }
-            tick = 0; // скинули лічильник
+            tick = 0;
         }
-        on_paint(); // здійснюємо перемалювання вікна
+        // перемалювання вікна
+        on_paint();
     }
 
 }

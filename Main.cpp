@@ -1,71 +1,76 @@
-// main.cpp
 #include <GL/glut.h>
 #include "Scene.h"
 #include "Utils/Utils.h"
 
 using Game::Scene;
 
-Scene *scene; // вказівник на клас Scene
+Scene *scene;
 
+// Обробка події, пов'язаної з перемалюванням вікна
 void on_paint()
 {
-    // Викликаємо відповідну функцію класу Scene:
     scene->on_paint();
 }
 
+// Обробка події, пов'язаної зі зміною розмірів вікна
 void on_size(int width, int height)
 {
-    // Викликаємо відповідну функцію класу Scene:
     scene->on_size(width, height);
 }
 
+// Обробка подій, пов'язаних з натисканням кнопок миші
 void on_mouse(int button, int state, int x, int y)
 {
-    // Викликаємо відповідну функцію класу Scene:
     scene->on_mouse(button, state, x, y);
 }
 
+// Обробка подій, пов'язаних з пересуванням миші з натисненою кнопкою
 void on_motion(int x, int y)
 {
-    // Викликаємо відповідну функцію класу Scene:
     scene->on_motion(x, y);
 }
 
+// Обробка подій від спеціальних клавіш клавіатури:
 void on_special(int key, int x, int y)
 {
-    // Викликаємо відповідну функцію класу Scene:
     scene->on_special(key, x, y);
 }
 
+// Обробка подій від клавіатури:
 void on_keyboard(unsigned char key, int x, int y)
 {
-    // Обробка подій від клавіатури:
     scene->on_keyboard(key, x ,y);
 }
 
+// Обробка події від таймера
 void on_timer(int value)
 {
-    // Обробка події від таймера
     scene->on_timer(value);
-    glutTimerFunc(10, on_timer, 0); // зa 25 мс викличеться ця функція
+    glutTimerFunc(10, on_timer, 0);
 }
 
 int main(int argc, char* argv[])
 {
-    glutInit(&argc, argv);         // ініціалізуємо GLUT
-    scene = new Scene(GraphUtils::xStep, GraphUtils::zStep);   // створюємо об'єкт "сцена"
-    glutInitWindowSize(900, 900);  // встановлюємFо розміри вікна
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);// ініціалізуємо режими відображення
-    glEnable(GLUT_MULTISAMPLE);    // включаємо мультисемплінг для більш гладкої
-    glutCreateWindow("2048");     // створюємо вікно
-    glutDisplayFunc(on_paint);     // реєструємо функцію відображення
-    glutReshapeFunc(on_size);      // реєструємо функцію обробки зміни розмірів вікна
-    glutMotionFunc(on_motion);     // реєструємо функцію, яка відповідає за переміщення миші з натиснутою кнопкою
-    glutMouseFunc(on_mouse);       // реєструємо функцію, яка відповідає за натискання на кнопку миші
-    glutKeyboardFunc(on_keyboard); // реєструємо функцію, яка відповідає за натискання клавіш
-    glutSpecialFunc(on_special);   // реєструємо функцію, яка відповідає за натискання спеціальних клавіш
-    glutTimerFunc(10, on_timer, 0);// кожні 25 мс викликається ця функція
-    glutMainLoop();                // стартуємо основний цикл обробки подій
-    delete scene;                  // видаляємо об'єкт "сцена"
+    // Ініціалізуємо GLUT та встановлюємо основні параметри вікна 
+    glutInit(&argc, argv);
+    scene = new Scene(GraphUtils::xStep, GraphUtils::zStep);
+    glutInitWindowSize(900, 900);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE | GLUT_MULTISAMPLE);
+    glEnable(GLUT_MULTISAMPLE);
+    glutCreateWindow("2048"); 
+
+    // Реєстрація функцій 
+    glutDisplayFunc(on_paint);
+    glutReshapeFunc(on_size);
+    glutMotionFunc(on_motion);
+    glutMouseFunc(on_mouse);
+    glutKeyboardFunc(on_keyboard);
+    glutSpecialFunc(on_special);
+    glutTimerFunc(10, on_timer, 0);
+
+    // Запуск основного циклу обробки подій
+    glutMainLoop();
+
+    delete scene;
     return(0);
 }

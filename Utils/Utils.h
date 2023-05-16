@@ -8,7 +8,7 @@
 
 namespace GraphUtils
 {
-    // Визначення основних значень гри
+    // Визначення розмірів полів
     extern int N;
     extern int M;
 
@@ -103,14 +103,11 @@ namespace GraphUtils
 
     const float shininess = 64; // блиск
 
-    // Перерахування індексу масиву fields в координату x
+    // Перерахування індексу масиву Board::grid в координату x
     float allocX(int i);
 
-    // Перерахування індексу масиву fields в координату z
+    // Перерахування індексу масиву Board::grid в координату z
     float allocZ(int i);
-
-    // Випадкове "тасування" одновимірного масиву цілих чисел
-    void shuffle(int *a, int size);
 
     // Малювання паралелепіпеда
     void parallelepiped(float length, float width, float height);

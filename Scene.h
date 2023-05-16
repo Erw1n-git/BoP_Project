@@ -24,7 +24,7 @@ namespace Game
     {
 
     private:
-        std::shared_ptr<Board> board; // вказівник на об'єкт Board
+        std::shared_ptr<Board> board; // вказівник на об'єкт поля гри
 
         int button;           // кнопка миші (-1 - не натиснута, 0 - ліва, 2 - права)
         float angleX, angleY; // поточний кут повороту сцени 

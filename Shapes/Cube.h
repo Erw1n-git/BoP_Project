@@ -27,6 +27,7 @@ namespace Game
              
         virtual void draw();
 
+        // Функції доступу
         void setValue(std::string value);
         std::string getValue() const { return value; }
 
@@ -37,6 +38,7 @@ namespace Game
         void setMerged(bool merged) { this->merged = merged; }
         bool isMerged() const { return merged; }
 
+        // Оновлення кольору куба в залежності від значення 'value'
         void updateColor();
     };
 }
