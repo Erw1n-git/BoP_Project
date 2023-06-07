@@ -46,7 +46,7 @@ void on_keyboard(unsigned char key, int x, int y)
 void on_timer(int value)
 {
     scene->on_timer(value);
-    glutTimerFunc(10, on_timer, 0);
+    glutTimerFunc(25, on_timer, 0);
 }
 
 int main(int argc, char* argv[])
